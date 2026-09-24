@@ -5,10 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Golf Handicap Tracker</title>
     <link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#0a3d2e">
-<link rel="apple-touch-icon" href="icon-192.png">
-    <meta name="color-scheme" content="light only" />
-<meta name="supported-color-schemes" content="light" />
+    <meta name="theme-color" content="#0a3d2e">
+    <link rel="apple-touch-icon" href="icon-192.png">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Golf HCP">
+    <meta name="description" content="Track your golf rounds and calculate your handicap index.">
+    <meta name="color-scheme" content="light only">
+    <meta name="supported-color-schemes" content="light">
     <style>
         * {
             margin: 0;
@@ -171,14 +175,8 @@
         }
 
         @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(8px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         .back-btn {
@@ -194,9 +192,7 @@
             gap: 6px;
         }
 
-        .back-btn:hover {
-            color: #1e3a2f;
-        }
+        .back-btn:hover { color: #1e3a2f; }
 
         .form-group {
             margin-bottom: 18px;
@@ -229,19 +225,8 @@
             border-color: #1e4d3a;
         }
 
-        .form-group input::placeholder {
-            color: #b3a89b;
-        }
-
-        .form-group input[type="date"] {
-            cursor: pointer;
-        }
-
-        .form-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 14px;
-        }
+        .form-group input::placeholder { color: #b3a89b; }
+        .form-group input[type="date"] { cursor: pointer; }
 
         .btn-primary {
             background: #1e4d3a;
@@ -257,9 +242,7 @@
             margin-top: 6px;
         }
 
-        .btn-primary:active {
-            background: #14382b;
-        }
+        .btn-primary:active { background: #14382b; }
 
         .btn-secondary {
             background: #e8e1d8;
@@ -275,9 +258,7 @@
             margin-top: 8px;
         }
 
-        .btn-secondary:active {
-            background: #d8d0c5;
-        }
+        .btn-secondary:active { background: #d8d0c5; }
 
         .btn-danger {
             background: #c0392b;
@@ -292,9 +273,7 @@
             transition: background 0.2s;
         }
 
-        .btn-danger:active {
-            background: #a93226;
-        }
+        .btn-danger:active { background: #a93226; }
 
         .course-list {
             margin-top: 16px;
@@ -325,11 +304,6 @@
             cursor: pointer;
         }
 
-        .course-item .name:hover {
-            color: #1e4d3a;
-            text-decoration: underline;
-        }
-
         .course-item .name-row {
             display: flex;
             align-items: center;
@@ -348,13 +322,8 @@
             transition: background 0.15s;
         }
 
-        .course-item .edit-icon:hover {
-            background: #e8e1d8;
-        }
-
-        .course-item .tee-list {
-            margin-top: 8px;
-        }
+        .course-item .edit-icon:hover { background: #e8e1d8; }
+        .course-item .tee-list { margin-top: 8px; }
 
         .course-item .delete-btn {
             background: none;
@@ -372,11 +341,7 @@
             font-size: 15px;
         }
 
-        .empty-state .emoji {
-            font-size: 40px;
-            display: block;
-            margin-bottom: 10px;
-        }
+        .empty-state .emoji { font-size: 40px; display: block; margin-bottom: 10px; }
 
         .score-display {
             background: white;
@@ -393,14 +358,8 @@
             font-size: 15px;
         }
 
-        .score-display .row .label {
-            color: #7a6b5c;
-        }
-
-        .score-display .row .value {
-            font-weight: 600;
-            color: #1e3a2f;
-        }
+        .score-display .row .label { color: #7a6b5c; }
+        .score-display .row .value { font-weight: 600; color: #1e3a2f; }
 
         .score-display .diff-note {
             font-size: 12px;
@@ -411,9 +370,7 @@
             text-align: center;
         }
 
-        .recent-scores {
-            margin-top: 16px;
-        }
+        .recent-scores { margin-top: 16px; }
 
         .recent-scores h4 {
             font-size: 14px;
@@ -435,19 +392,9 @@
             transition: background 0.15s;
         }
 
-        .recent-score-item:active {
-            background: #f0ede6;
-        }
-
-        .recent-score-item .course {
-            font-weight: 600;
-            color: #1e3a2f;
-        }
-
-        .recent-score-item .score {
-            color: #4d6b5c;
-            font-size: 13px;
-        }
+        .recent-score-item:active { background: #f0ede6; }
+        .recent-score-item .course { font-weight: 600; color: #1e3a2f; }
+        .recent-score-item .score { color: #4d6b5c; font-size: 13px; }
 
         .recent-score-item .badge-9 {
             background: #e8e1d8;
@@ -459,9 +406,7 @@
             margin-left: 6px;
         }
 
-        .course-selector-wrapper {
-            position: relative;
-        }
+        .course-selector-wrapper { position: relative; }
 
         .course-selector-wrapper .selected-course {
             padding: 14px 16px;
@@ -478,9 +423,7 @@
             min-height: 54px;
         }
 
-        .course-selector-wrapper .selected-course:active {
-            border-color: #14382b;
-        }
+        .course-selector-wrapper .selected-course:active { border-color: #14382b; }
 
         .course-selector-wrapper .selected-course .arrow-down {
             font-size: 20px;
@@ -488,14 +431,8 @@
             transition: transform 0.2s;
         }
 
-        .course-selector-wrapper .selected-course .arrow-down.open {
-            transform: rotate(180deg);
-        }
-
-        .course-selector-wrapper .selected-course .placeholder {
-            color: #7a6b5c;
-            font-weight: 400;
-        }
+        .course-selector-wrapper .selected-course .arrow-down.open { transform: rotate(180deg); }
+        .course-selector-wrapper .selected-course .placeholder { color: #7a6b5c; font-weight: 400; }
 
         .course-selector-wrapper .dropdown-list {
             position: absolute;
@@ -512,9 +449,7 @@
             box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
         }
 
-        .course-selector-wrapper .dropdown-list.show {
-            display: block;
-        }
+        .course-selector-wrapper .dropdown-list.show { display: block; }
 
         .course-selector-wrapper .dropdown-search {
             padding: 10px 14px;
@@ -541,10 +476,7 @@
             border-color: #1e4d3a;
         }
 
-        .course-selector-wrapper .dropdown-items {
-            max-height: 200px;
-            overflow-y: auto;
-        }
+        .course-selector-wrapper .dropdown-items { max-height: 200px; overflow-y: auto; }
 
         .course-selector-wrapper .dropdown-item {
             padding: 12px 16px;
@@ -555,64 +487,24 @@
             color: #1e3a2f;
         }
 
-        .course-selector-wrapper .dropdown-item:last-child {
-            border-bottom: none;
-        }
-
-        .course-selector-wrapper .dropdown-item:hover {
-            background: #f0ede6;
-        }
-
-        .course-selector-wrapper .dropdown-item .recent-badge {
-            font-size: 11px;
-            color: #7a6b5c;
-            margin-left: 8px;
-        }
-
-        .course-selector-wrapper .dropdown-item .course-tees {
-            font-size: 12px;
-            color: #7a6b5c;
-            display: block;
-            margin-top: 2px;
-        }
-
-        .course-selector-wrapper .dropdown-item .no-results {
-            color: #7a6b5c;
-            cursor: default;
-            text-align: center;
-            padding: 20px 0;
-        }
+        .course-selector-wrapper .dropdown-item:last-child { border-bottom: none; }
+        .course-selector-wrapper .dropdown-item:hover { background: #f0ede6; }
+        .course-selector-wrapper .dropdown-item .recent-badge { font-size: 11px; color: #7a6b5c; margin-left: 8px; }
+        .course-selector-wrapper .dropdown-item .course-tees { font-size: 12px; color: #7a6b5c; display: block; margin-top: 2px; }
+        .course-selector-wrapper .dropdown-item .no-results { color: #7a6b5c; cursor: default; text-align: center; padding: 20px 0; }
 
         .course-selector-wrapper .dropdown-list::-webkit-scrollbar,
-        .course-selector-wrapper .dropdown-items::-webkit-scrollbar {
-            width: 4px;
-        }
+        .course-selector-wrapper .dropdown-items::-webkit-scrollbar { width: 4px; }
 
         .course-selector-wrapper .dropdown-list::-webkit-scrollbar-track,
-        .course-selector-wrapper .dropdown-items::-webkit-scrollbar-track {
-            background: #e8e1d8;
-            border-radius: 8px;
-        }
+        .course-selector-wrapper .dropdown-items::-webkit-scrollbar-track { background: #e8e1d8; border-radius: 8px; }
 
         .course-selector-wrapper .dropdown-list::-webkit-scrollbar-thumb,
-        .course-selector-wrapper .dropdown-items::-webkit-scrollbar-thumb {
-            background: #a08b78;
-            border-radius: 8px;
-        }
+        .course-selector-wrapper .dropdown-items::-webkit-scrollbar-thumb { background: #a08b78; border-radius: 8px; }
 
-        .course-list::-webkit-scrollbar {
-            width: 4px;
-        }
-
-        .course-list::-webkit-scrollbar-track {
-            background: #e8e1d8;
-            border-radius: 8px;
-        }
-
-        .course-list::-webkit-scrollbar-thumb {
-            background: #a08b78;
-            border-radius: 8px;
-        }
+        .course-list::-webkit-scrollbar { width: 4px; }
+        .course-list::-webkit-scrollbar-track { background: #e8e1d8; border-radius: 8px; }
+        .course-list::-webkit-scrollbar-thumb { background: #a08b78; border-radius: 8px; }
 
         .tee-input-row {
             display: flex;
@@ -631,10 +523,7 @@
             min-width: 60px;
         }
 
-        .tee-input-row input:focus {
-            outline: none;
-            border-color: #1e4d3a;
-        }
+        .tee-input-row input:focus { outline: none; border-color: #1e4d3a; }
 
         .tee-input-row .add-tee-btn {
             padding: 10px 16px;
@@ -647,9 +536,7 @@
             white-space: nowrap;
         }
 
-        .tee-input-row .add-tee-btn:active {
-            background: #14382b;
-        }
+        .tee-input-row .add-tee-btn:active { background: #14382b; }
 
         .course-item .tee-item {
             display: flex;
@@ -660,30 +547,11 @@
             border-bottom: 1px solid #f0ede6;
         }
 
-        .course-item .tee-item:last-child {
-            border-bottom: none;
-        }
+        .course-item .tee-item:last-child { border-bottom: none; }
+        .course-item .tee-item .tee-color { font-weight: 600; color: #1e3a2f; }
+        .course-item .tee-item .tee-stats { color: #7a6b5c; font-size: 13px; }
+        .course-item .tee-item .remove-tee { color: #c0392b; background: none; border: none; cursor: pointer; font-size: 16px; padding: 0 4px; }
 
-        .course-item .tee-item .tee-color {
-            font-weight: 600;
-            color: #1e3a2f;
-        }
-
-        .course-item .tee-item .tee-stats {
-            color: #7a6b5c;
-            font-size: 13px;
-        }
-
-        .course-item .tee-item .remove-tee {
-            color: #c0392b;
-            background: none;
-            border: none;
-            cursor: pointer;
-            font-size: 16px;
-            padding: 0 4px;
-        }
-
-        /* MODALS */
         .modal-overlay {
             position: fixed;
             top: 0;
@@ -699,9 +567,7 @@
             backdrop-filter: blur(2px);
         }
 
-        .modal-overlay.show {
-            display: flex;
-        }
+        .modal-overlay.show { display: flex; }
 
         .modal-content {
             background: #f5f2eb;
@@ -716,41 +582,15 @@
         }
 
         @keyframes modalIn {
-            from {
-                opacity: 0;
-                transform: translateY(20px) scale(0.95);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0) scale(1);
-            }
+            from { opacity: 0; transform: translateY(20px) scale(0.95); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
         }
 
-        .modal-content h3 {
-            font-size: 20px;
-            color: #1e3a2f;
-            margin-bottom: 4px;
-        }
-
-        .modal-content .modal-sub {
-            font-size: 13px;
-            color: #7a6b5c;
-            margin-bottom: 18px;
-        }
-
-        .modal-content::-webkit-scrollbar {
-            width: 4px;
-        }
-
-        .modal-content::-webkit-scrollbar-track {
-            background: #e8e1d8;
-            border-radius: 8px;
-        }
-
-        .modal-content::-webkit-scrollbar-thumb {
-            background: #a08b78;
-            border-radius: 8px;
-        }
+        .modal-content h3 { font-size: 20px; color: #1e3a2f; margin-bottom: 4px; }
+        .modal-content .modal-sub { font-size: 13px; color: #7a6b5c; margin-bottom: 18px; }
+        .modal-content::-webkit-scrollbar { width: 4px; }
+        .modal-content::-webkit-scrollbar-track { background: #e8e1d8; border-radius: 8px; }
+        .modal-content::-webkit-scrollbar-thumb { background: #a08b78; border-radius: 8px; }
 
         .edit-tee-row {
             display: grid;
@@ -774,10 +614,7 @@
             color: #1e3a2f;
         }
 
-        .edit-tee-row input:focus {
-            outline: none;
-            border-color: #1e4d3a;
-        }
+        .edit-tee-row input:focus { outline: none; border-color: #1e4d3a; }
 
         .edit-tee-row .remove-edit-tee {
             background: none;
@@ -789,31 +626,11 @@
             font-weight: 700;
         }
 
-        .edit-tee-row .remove-edit-tee:hover {
-            color: #a93226;
-        }
+        .modal-actions { display: flex; gap: 10px; margin-top: 18px; }
+        .modal-actions .btn-primary { margin-top: 0; flex: 1; }
+        .modal-actions .btn-secondary { margin-top: 0; flex: 1; }
 
-        .modal-actions {
-            display: flex;
-            gap: 10px;
-            margin-top: 18px;
-        }
-
-        .modal-actions .btn-primary {
-            margin-top: 0;
-            flex: 1;
-        }
-
-        .modal-actions .btn-secondary {
-            margin-top: 0;
-            flex: 1;
-        }
-
-        .add-tee-inline {
-            display: flex;
-            gap: 6px;
-            margin-top: 6px;
-        }
+        .add-tee-inline { display: flex; gap: 6px; margin-top: 6px; }
 
         .add-tee-inline input {
             flex: 1;
@@ -824,10 +641,7 @@
             min-width: 0;
         }
 
-        .add-tee-inline input:focus {
-            outline: none;
-            border-color: #1e4d3a;
-        }
+        .add-tee-inline input:focus { outline: none; border-color: #1e4d3a; }
 
         .add-tee-inline button {
             padding: 8px 14px;
@@ -863,20 +677,10 @@
             cursor: pointer;
         }
 
-        .holes-selector .nine-options {
-            display: flex;
-            gap: 10px;
-            margin-left: 4px;
-        }
+        .holes-selector .nine-options { display: flex; gap: 10px; margin-left: 4px; }
+        .holes-selector .nine-options label { font-weight: 400; font-size: 13px; }
 
-        .holes-selector .nine-options label {
-            font-weight: 400;
-            font-size: 13px;
-        }
-
-        .rounds-list {
-            margin-top: 12px;
-        }
+        .rounds-list { margin-top: 12px; }
 
         .round-item {
             background: white;
@@ -892,51 +696,16 @@
             transition: background 0.15s, transform 0.1s;
         }
 
-        .round-item:active {
-            transform: scale(0.99);
-        }
+        .round-item:active { transform: scale(0.99); }
+        .round-item.best-round { border-left-color: #f1c40f; background: #fef9e7; }
+        .round-item.counted-round { border-left-color: #27ae60; background: #eafaf1; }
 
-        .round-item.best-round {
-            border-left-color: #f1c40f;
-            background: #fef9e7;
-        }
-
-        .round-item.counted-round {
-            border-left-color: #27ae60;
-            background: #eafaf1;
-        }
-
-        .round-item .round-left {
-            flex: 1;
-        }
-
-        .round-item .round-course {
-            font-weight: 600;
-            color: #1e3a2f;
-            font-size: 15px;
-        }
-
-        .round-item .round-detail {
-            font-size: 13px;
-            color: #7a6b5c;
-            margin-top: 2px;
-        }
-
-        .round-item .round-right {
-            text-align: right;
-            min-width: 70px;
-        }
-
-        .round-item .round-score {
-            font-weight: 700;
-            font-size: 18px;
-            color: #1e3a2f;
-        }
-
-        .round-item .round-diff {
-            font-size: 12px;
-            color: #7a6b5c;
-        }
+        .round-item .round-left { flex: 1; }
+        .round-item .round-course { font-weight: 600; color: #1e3a2f; font-size: 15px; }
+        .round-item .round-detail { font-size: 13px; color: #7a6b5c; margin-top: 2px; }
+        .round-item .round-right { text-align: right; min-width: 70px; }
+        .round-item .round-score { font-weight: 700; font-size: 18px; color: #1e3a2f; }
+        .round-item .round-diff { font-size: 12px; color: #7a6b5c; }
 
         .round-item .round-badge {
             display: inline-block;
@@ -947,20 +716,10 @@
             margin-left: 4px;
         }
 
-        .round-badge.best {
-            background: #f1c40f;
-            color: #1e3a2f;
-        }
-
-        .round-badge.counted {
-            background: #27ae60;
-            color: white;
-        }
-
-        .round-badge.nine {
-            background: #e8e1d8;
-            color: #4d6b5c;
-        }
+        .round-badge.best { background: #f1c40f; color: #1e3a2f; }
+        .round-badge.counted { background: #27ae60; color: white; }
+        .round-badge.nine { background: #e8e1d8; color: #4d6b5c; }
+        .round-badge.estimated { background: #c6b29a; color: #1e3a2f; }
 
         .legend {
             display: flex;
@@ -970,24 +729,10 @@
             flex-wrap: wrap;
         }
 
-        .legend-item {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .legend-color {
-            width: 20px;
-            height: 4px;
-            border-radius: 2px;
-        }
-
-        .legend-color.yellow {
-            background: #f1c40f;
-        }
-        .legend-color.green {
-            background: #27ae60;
-        }
+        .legend-item { display: flex; align-items: center; gap: 6px; }
+        .legend-color { width: 20px; height: 4px; border-radius: 2px; }
+        .legend-color.yellow { background: #f1c40f; }
+        .legend-color.green { background: #27ae60; }
 
         .stats-bar {
             background: white;
@@ -999,32 +744,12 @@
             border: 1px solid #e8e1d8;
         }
 
-        .stats-bar .stat {
-            text-align: center;
-        }
+        .stats-bar .stat { text-align: center; }
+        .stats-bar .stat .number { font-size: 22px; font-weight: 700; color: #1e3a2f; }
+        .stats-bar .stat .label { font-size: 11px; color: #7a6b5c; text-transform: uppercase; letter-spacing: 0.5px; }
 
-        .stats-bar .stat .number {
-            font-size: 22px;
-            font-weight: 700;
-            color: #1e3a2f;
-        }
-
-        .stats-bar .stat .label {
-            font-size: 11px;
-            color: #7a6b5c;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .recent-courses {
-            margin-bottom: 16px;
-        }
-
-        .recent-courses h4 {
-            font-size: 13px;
-            color: #4d6b5c;
-            margin-bottom: 6px;
-        }
+        .recent-courses { margin-bottom: 16px; }
+        .recent-courses h4 { font-size: 13px; color: #4d6b5c; margin-bottom: 6px; }
 
         .recent-course-chip {
             display: inline-block;
@@ -1040,10 +765,7 @@
             transition: all 0.15s;
         }
 
-        .recent-course-chip:active {
-            background: #e8e1d8;
-            transform: scale(0.95);
-        }
+        .recent-course-chip:active { background: #e8e1d8; transform: scale(0.95); }
 
         .date-badge {
             display: inline-block;
@@ -1055,6 +777,118 @@
             color: #4d6b5c;
             margin-left: 4px;
         }
+
+        /* ---- CALCULATE HDC VIEW ---- */
+        .mode-tabs {
+            display: flex;
+            background: #e8e1d8;
+            border-radius: 12px;
+            padding: 4px;
+            margin-bottom: 18px;
+        }
+
+        .mode-tabs button {
+            flex: 1;
+            background: none;
+            border: none;
+            padding: 10px 12px;
+            border-radius: 9px;
+            font-size: 14px;
+            font-weight: 700;
+            color: #4d6b5c;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: inherit;
+        }
+
+        .mode-tabs button.active {
+            background: white;
+            color: #1e4d3a;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+        }
+
+        .result-card {
+            background: linear-gradient(145deg, #1e4d3a, #0f3326);
+            border-radius: 20px;
+            padding: 24px 20px;
+            margin-top: 18px;
+            text-align: center;
+            color: white;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+        }
+
+        .result-card .result-label {
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            opacity: 0.7;
+            font-weight: 500;
+        }
+
+        .result-card .result-value {
+            font-size: 60px;
+            font-weight: 800;
+            line-height: 1.1;
+            margin: 8px 0;
+            letter-spacing: -2px;
+        }
+
+        .result-card .result-detail {
+            font-size: 13px;
+            opacity: 0.75;
+            margin-top: 4px;
+            line-height: 1.6;
+        }
+
+        .result-card .result-divider {
+            height: 1px;
+            background: rgba(255,255,255,0.15);
+            margin: 16px 0;
+        }
+
+        .result-card .secondary-result {
+            font-size: 14px;
+            opacity: 0.85;
+        }
+
+        .result-card .secondary-result b {
+            font-weight: 800;
+            font-size: 17px;
+        }
+
+        .info-note {
+            font-size: 12px;
+            color: #7a6b5c;
+            text-align: center;
+            margin-top: 12px;
+            line-height: 1.5;
+        }
+
+        .toggle-check {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 14px;
+            background: white;
+            border: 2px solid #e2dad1;
+            border-radius: 14px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            color: #2d4a3b;
+            transition: border-color 0.15s;
+            margin-bottom: 14px;
+        }
+
+        .toggle-check:hover { border-color: #c6b29a; }
+        .toggle-check input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            accent-color: #1e4d3a;
+            cursor: pointer;
+        }
+
+        /* END CALCULATE HDC VIEW */
     </style>
 </head>
 <body>
@@ -1065,7 +899,7 @@
         <div id="homeView" class="view active">
             <div class="header">
                 <h1>🏌️ Handicap</h1>
-                <span class="badge">v2.0</span>
+                <span class="badge">v2.3</span>
             </div>
 
             <div class="handicap-card" id="handicapCard">
@@ -1082,6 +916,17 @@
                         <span>
                             Enter Score
                             <div class="btn-desc">Add a round with adjusted gross score</div>
+                        </span>
+                    </span>
+                    <span class="arrow">→</span>
+                </button>
+
+                <button class="menu-btn" id="calculateHdcBtn">
+                    <span class="btn-content">
+                        <span class="icon">🎯</span>
+                        <span>
+                            Calculate Handicap
+                            <div class="btn-desc">Course handicap for any course or friend</div>
                         </span>
                     </span>
                     <span class="arrow">→</span>
@@ -1134,7 +979,7 @@
 
                 <div class="form-group">
                     <label>Golf Course</label>
-                    
+
                     <div class="recent-courses" id="recentCoursesContainer" style="display:none;">
                         <h4>Recent courses</h4>
                         <div id="recentCoursesList"></div>
@@ -1185,14 +1030,125 @@
                     <div class="row"><span class="label">Course Rating</span><span class="value" id="previewRating">—</span></div>
                     <div class="row"><span class="label">Slope Rating</span><span class="value" id="previewSlope">—</span></div>
                     <div class="row"><span class="label">Holes</span><span class="value" id="previewHoles">18</span></div>
-                    <div class="row"><span class="label">Score Differential (18-hole equiv)</span><span class="value" id="previewDiff">—</span></div>
-                    <div class="diff-note" id="diffNote">9-hole differentials are multiplied by 2 for 18-hole equivalent</div>
+                    <div class="row"><span class="label">Score Differential</span><span class="value" id="previewDiff">—</span></div>
+                    <div class="diff-note" id="diffNote">9-hole scores use your current index to estimate the missing 9.</div>
                 </div>
 
                 <button type="submit" class="btn-primary">✅ Save Round</button>
             </form>
 
             <div id="scoreMessage" style="margin-top:14px;font-size:15px;text-align:center;color:#1e4d3a;"></div>
+        </div>
+
+        <!-- ====== CALCULATE HDC VIEW ====== -->
+        <div id="calculateView" class="view">
+            <button class="back-btn" id="backFromCalc">← Back</button>
+            <h2 style="font-size:22px;color:#1e3a2f;margin-bottom:4px;">Calculate Handicap</h2>
+            <p style="color:#7a6b5c;font-size:14px;margin-bottom:18px;">Course handicap for any course or friend</p>
+
+            <!-- Mode Tabs -->
+            <div class="mode-tabs">
+                <button type="button" id="tabCourse" class="active">⛳ From Course</button>
+                <button type="button" id="tabManual">📝 Manual Entry</button>
+            </div>
+
+            <!-- Course selection mode -->
+            <div id="calcCourseSection">
+                <div class="form-group">
+                    <label>Course</label>
+                    <div class="course-selector-wrapper">
+                        <div class="selected-course" id="calcSelectedCourseDisplay">
+                            <span class="placeholder">Select a course...</span>
+                            <span class="arrow-down" id="calcDropdownArrow">▼</span>
+                        </div>
+                        <div class="dropdown-list" id="calcCourseDropdownList">
+                            <div class="dropdown-search">
+                                <input type="text" id="calcCourseSearchInput" placeholder="Search courses..." autofocus />
+                            </div>
+                            <div class="dropdown-items" id="calcDropdownItems"></div>
+                        </div>
+                    </div>
+                    <input type="hidden" id="calcSelectedCourseId" value="" />
+                </div>
+
+                <div class="form-group">
+                    <label>Tee Color</label>
+                    <select id="calcTeeSelect">
+                        <option value="">— Select tee —</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Manual entry mode -->
+            <div id="calcManualSection" style="display:none;">
+                <div class="form-group">
+                    <label for="calcCourseName">Course Name (optional)</label>
+                    <input type="text" id="calcCourseName" placeholder="e.g. Worcester Golf Club" />
+                </div>
+                <div class="form-group">
+                    <label for="calcRating">Course Rating</label>
+                    <input type="number" id="calcRating" placeholder="e.g. 72.5" step="0.1" min="50" max="80" />
+                </div>
+                <div class="form-group">
+                    <label for="calcSlope">Slope Rating</label>
+                    <input type="number" id="calcSlope" placeholder="e.g. 126" step="1" min="55" max="155" />
+                </div>
+            </div>
+
+            <!-- Holes -->
+            <div class="form-group">
+                <label>Holes</label>
+                <div class="holes-selector">
+                    <label><input type="radio" name="calcHoles" value="18" checked /> 18 Holes</label>
+                    <label><input type="radio" name="calcHoles" value="9" /> 9 Holes</label>
+                </div>
+            </div>
+
+            <!-- Par -->
+            <div class="form-group">
+                <label for="calcPar">Par</label>
+                <input type="number" id="calcPar" value="72" min="27" max="80" step="1" />
+            </div>
+
+            <!-- Friend mode -->
+            <label class="toggle-check">
+                <input type="checkbox" id="calcFriendMode" />
+                <span>Calculate for a friend (override index)</span>
+            </label>
+
+            <div class="form-group" id="calcFriendIndexGroup" style="display:none;">
+                <label for="calcFriendIndex">Their Handicap Index</label>
+                <input type="number" id="calcFriendIndex" placeholder="e.g. 12.4" step="0.1" min="0" max="54" />
+            </div>
+
+            <!-- Allowance -->
+            <div class="form-group">
+                <label for="calcAllowance">Handicap Allowance</label>
+                <select id="calcAllowance">
+                    <option value="1.00">100% — Practice / Casual</option>
+                    <option value="0.95" selected>95% — Individual Stroke Play</option>
+                    <option value="0.90">90% — Individual Stableford</option>
+                    <option value="0.85">85% — Fourball Better Ball</option>
+                    <option value="0.80">80% — Foursomes</option>
+                    <option value="0.75">75% — Greensomes</option>
+                </select>
+            </div>
+
+            <button type="button" class="btn-primary" id="calcBtn">🎯 Calculate</button>
+
+            <div id="calcResult" class="result-card" style="display:none;">
+                <div class="result-label">Course Handicap</div>
+                <div class="result-value" id="resultCourseHdc">—</div>
+                <div class="result-divider"></div>
+                <div class="secondary-result">
+                    Playing Handicap: <b id="resultPlayingHdc">—</b>
+                </div>
+                <div class="result-detail" id="resultDetail"></div>
+            </div>
+
+            <div class="info-note" id="calcInfoNote">
+                Based on your current index. Uses official WHS formula.
+            </div>
         </div>
 
         <!-- ====== ALL ROUNDS VIEW ====== -->
@@ -1443,10 +1399,8 @@
             return `${yyyy}-${mm}-${dd}`;
         }
 
-        // Returns the playedDate for a round, falling back to entry date for legacy rounds
         function getRoundPlayedISO(r) {
             if (r.playedDate) return r.playedDate;
-            // legacy: use entry timestamp's date portion
             const d = new Date(r.date);
             const yyyy = d.getFullYear();
             const mm = String(d.getMonth() + 1).padStart(2, '0');
@@ -1454,7 +1408,6 @@
             return `${yyyy}-${mm}-${dd}`;
         }
 
-        // ISO "YYYY-MM-DD" → "20-Sep-2026"
         function formatISOToDisplay(iso) {
             if (!iso) return '—';
             const parts = iso.split('-');
@@ -1466,15 +1419,6 @@
             return `${dd}-${MONTHS_SHORT[mm - 1]}-${yyyy}`;
         }
 
-        // For legacy rounds using entry timestamp
-        function formatDate(ts) {
-            const d = new Date(ts);
-            const yyyy = d.getFullYear();
-            const mm = String(d.getMonth() + 1).padStart(2, '0');
-            const dd = String(d.getDate()).padStart(2, '0');
-            return formatISOToDisplay(`${yyyy}-${mm}-${dd}`);
-        }
-
         // ============================================================
         //  DATA PERSISTENCE
         // ============================================================
@@ -1483,8 +1427,7 @@
             const storedCourses = localStorage.getItem('golf_courses_v2');
             const storedRounds = localStorage.getItem('golf_rounds_v2');
             const storedVersion = localStorage.getItem('golf_courses_version');
-
-            const CURRENT_VERSION = '3';
+            const CURRENT_VERSION = '4';
 
             if (storedVersion !== CURRENT_VERSION) {
                 let customCourses = [];
@@ -1512,23 +1455,49 @@
         }
 
         function saveCourses() { localStorage.setItem('golf_courses_v2', JSON.stringify(courses)); }
-
         function saveRounds() { localStorage.setItem('golf_rounds_v2', JSON.stringify(rounds)); }
 
         // ============================================================
         //  HANDICAP CALCULATION
         // ============================================================
 
-        function calculateDifferential(score, rating, slope, holes = 18, nineType = null) {
+        // Calculate the Score Differential for a single round.
+        // For 9-hole rounds, uses WHS 2024 method: combines actual 9-hole
+        // differential with an expected score based on current HCP index.
+        // handicapIndex = the player's index BEFORE this round is added
+        function calculateDifferential(score, rating, slope, holes = 18, nineType = null, handicapIndex = null) {
             if (!score || !rating || !slope) return null;
+
             if (holes === 9) {
+                // Step 1: actual 9-hole Score Differential
                 const nineHoleDiff = ((score - (rating / 2)) * 113) / slope;
-                return nineHoleDiff * 2;
+
+                // If no established index yet, fall back to old ×2 rule.
+                // (WHS requires an established index to use the expected-score method.)
+                if (handicapIndex === null || handicapIndex === undefined || isNaN(handicapIndex)) {
+                    return { diff: nineHoleDiff * 2, method: 'nineFallback' };
+                }
+
+                // Step 2: expected 9-hole differential from current index
+                // Per WHS: Expected Score Differential = (Handicap Index / 2) + 1.5
+                const expectedNineDiff = (handicapIndex / 2) + 1.5;
+
+                // Step 3: combine actual + expected
+                const eighteenHoleDiff = nineHoleDiff + expectedNineDiff;
+                return { diff: eighteenHoleDiff, method: 'nineWHS' };
             }
-            return ((score - rating) * 113) / slope;
+
+            // 18-hole: standard differential
+            return { diff: ((score - rating) * 113) / slope, method: 'eighteen' };
         }
 
-        // Sort rounds by played date descending (newest first). Uses entry date as tiebreaker.
+        // Convenience wrapper that returns just the number (used in places
+        // where we already know it's an 18-hole round, or when just probing)
+        function calculateDifferentialValue(score, rating, slope, holes, nineType, handicapIndex) {
+            const r = calculateDifferential(score, rating, slope, holes, nineType, handicapIndex);
+            return r ? r.diff : null;
+        }
+
         function sortRoundsByPlayedDate(list) {
             return [...list].sort((a, b) => {
                 const da = getRoundPlayedISO(a);
@@ -1538,22 +1507,22 @@
             });
         }
 
-        function getHandicapIndex() {
-            if (rounds.length < 3) return null;
+        // Get the WHS Handicap Index from a list of rounds.
+        // Pass an optional "exclude" round.date key to ignore a specific round
+        // (used when computing historical index for a 9-hole round's entry).
+        function computeHandicapIndex(list, excludeRoundDateKey = null) {
+            const filtered = excludeRoundDateKey !== null
+                ? list.filter(r => r.date !== excludeRoundDateKey)
+                : list;
 
-            const sorted = sortRoundsByPlayedDate(rounds);
+            if (filtered.length < 3) return null;
+
+            const sorted = sortRoundsByPlayedDate(filtered);
             const last20 = sorted.slice(0, 20);
 
             const diffs = last20
-                .map(r => {
-                    const course = courses.find(c => c.id === r.courseId);
-                    if (!course) return null;
-                    const tee = course.tees.find(t => t.color === r.teeColor);
-                    if (!tee) return null;
-                    const diff = calculateDifferential(r.score, tee.rating, tee.slope, r.holes || 18, r.nineType || null);
-                    return diff !== null && isFinite(diff) ? diff : null;
-                })
-                .filter(d => d !== null)
+                .map(r => r.differential)
+                .filter(d => d !== null && d !== undefined && isFinite(d))
                 .sort((a, b) => a - b);
 
             if (diffs.length < 3) return null;
@@ -1570,6 +1539,10 @@
             return Math.round(avg * 10) / 10;
         }
 
+        function getHandicapIndex() {
+            return computeHandicapIndex(rounds);
+        }
+
         // ============================================================
         //  UI HELPERS
         // ============================================================
@@ -1584,7 +1557,7 @@
         }
 
         // ============================================================
-        //  COURSE SELECTOR
+        //  COURSE SELECTOR (shared logic for both Enter Score and Calc)
         // ============================================================
 
         function getRecentCourses() {
@@ -1593,6 +1566,7 @@
             return courseIds.slice(0, 3).map(id => getCourse(id)).filter(c => c);
         }
 
+        // ------- Enter Score view: course selector -------
         function renderRecentCourses() {
             const container = document.getElementById('recentCoursesContainer');
             const list = document.getElementById('recentCoursesList');
@@ -1604,7 +1578,7 @@
             }
 
             container.style.display = 'block';
-            list.innerHTML = recent.map(c => 
+            list.innerHTML = recent.map(c =>
                 `<span class="recent-course-chip" data-id="${c.id}">${c.name}</span>`
             ).join('');
 
@@ -1694,6 +1668,103 @@
             updateScorePreview();
         }
 
+        function populateTeeSelect() {
+            const courseId = document.getElementById('selectedCourseId').value;
+            const teeSelect = document.getElementById('scoreTeeSelect');
+            teeSelect.innerHTML = '<option value="">— Select tee —</option>';
+
+            const course = getCourse(courseId);
+            if (course) {
+                course.tees.forEach(t => {
+                    const opt = document.createElement('option');
+                    opt.value = t.color;
+                    opt.textContent = `${t.color} (${t.rating}/${t.slope})`;
+                    teeSelect.appendChild(opt);
+                });
+            }
+            updateScorePreview();
+        }
+
+        // ------- Calculate view: course selector -------
+        function renderCalcDropdownItems(filter = '') {
+            const container = document.getElementById('calcDropdownItems');
+            const filtered = courses.filter(c =>
+                c.name.toLowerCase().includes(filter.toLowerCase())
+            );
+
+            if (filtered.length === 0) {
+                container.innerHTML = `<div class="dropdown-item no-results">No courses found</div>`;
+                return;
+            }
+
+            container.innerHTML = filtered.map(c => {
+                const teeInfo = c.tees.map(t => t.color).join(', ');
+                return `<div class="dropdown-item" data-id="${c.id}">
+                            ${c.name}
+                            <span class="course-tees">${teeInfo}</span>
+                        </div>`;
+            }).join('');
+
+            container.querySelectorAll('.dropdown-item').forEach(item => {
+                item.addEventListener('click', function() {
+                    const id = this.dataset.id;
+                    if (id) {
+                        selectCalcCourse(id);
+                        closeCalcDropdown();
+                    }
+                });
+            });
+        }
+
+        function openCalcDropdown() {
+            const dropdown = document.getElementById('calcCourseDropdownList');
+            const arrow = document.getElementById('calcDropdownArrow');
+            dropdown.classList.add('show');
+            arrow.classList.add('open');
+            setTimeout(() => {
+                document.getElementById('calcCourseSearchInput').focus();
+            }, 100);
+            renderCalcDropdownItems(document.getElementById('calcCourseSearchInput').value);
+        }
+
+        function closeCalcDropdown() {
+            const dropdown = document.getElementById('calcCourseDropdownList');
+            const arrow = document.getElementById('calcDropdownArrow');
+            dropdown.classList.remove('show');
+            arrow.classList.remove('open');
+        }
+
+        function toggleCalcDropdown() {
+            const dropdown = document.getElementById('calcCourseDropdownList');
+            if (dropdown.classList.contains('show')) {
+                closeCalcDropdown();
+            } else {
+                openCalcDropdown();
+            }
+        }
+
+        function selectCalcCourse(id) {
+            const course = getCourse(id);
+            if (!course) return;
+
+            document.getElementById('calcSelectedCourseId').value = id;
+            document.getElementById('calcSelectedCourseDisplay').innerHTML = `
+                        <span>${course.name}</span>
+                        <span class="arrow-down" id="calcDropdownArrow">▼</span>
+                    `;
+
+            document.getElementById('calcSelectedCourseDisplay').addEventListener('click', toggleCalcDropdown);
+
+            const teeSelect = document.getElementById('calcTeeSelect');
+            teeSelect.innerHTML = '<option value="">— Select tee —</option>';
+            course.tees.forEach(t => {
+                const opt = document.createElement('option');
+                opt.value = t.color;
+                opt.textContent = `${t.color} (${t.rating}/${t.slope})`;
+                teeSelect.appendChild(opt);
+            });
+        }
+
         // ============================================================
         //  RENDER FUNCTIONS
         // ============================================================
@@ -1740,13 +1811,9 @@
 
             document.getElementById('statTotal').textContent = sorted.length;
 
-            const allDiffs = sorted.map(r => {
-                const course = getCourse(r.courseId);
-                if (!course) return null;
-                const tee = course.tees.find(t => t.color === r.teeColor);
-                if (!tee) return null;
-                return calculateDifferential(r.score, tee.rating, tee.slope, r.holes || 18, r.nineType || null);
-            }).filter(d => d !== null && isFinite(d));
+            const allDiffs = sorted
+                .map(r => r.differential)
+                .filter(d => d !== null && d !== undefined && isFinite(d));
 
             if (allDiffs.length > 0) {
                 document.getElementById('statBest').textContent = Math.min(...allDiffs).toFixed(1);
@@ -1764,13 +1831,9 @@
             }
 
             const last20 = sorted.slice(0, 20);
-            const last20Diffs = last20.map(r => {
-                const course = getCourse(r.courseId);
-                if (!course) return null;
-                const tee = course.tees.find(t => t.color === r.teeColor);
-                if (!tee) return null;
-                return calculateDifferential(r.score, tee.rating, tee.slope, r.holes || 18, r.nineType || null);
-            }).filter(d => d !== null && isFinite(d));
+            const last20Diffs = last20
+                .map(r => r.differential)
+                .filter(d => d !== null && d !== undefined && isFinite(d));
 
             const bestDiff = last20Diffs.length > 0 ? Math.min(...last20Diffs) : null;
 
@@ -1788,14 +1851,10 @@
 
             const list = document.getElementById('allRoundsList');
             list.innerHTML = sorted.map((r, index) => {
-                const course = getCourse(r.courseId);
-                if (!course) return '';
-                const tee = course.tees.find(t => t.color === r.teeColor);
-                if (!tee) return '';
-                const diff = calculateDifferential(r.score, tee.rating, tee.slope, r.holes || 18, r.nineType || null);
+                const diff = r.differential;
                 const isInLast20 = index < 20;
-                const isBest = isInLast20 && diff !== null && diff === bestDiff && bestDiff !== null;
-                const isCounted = isInLast20 && diff !== null && countedDiffs.includes(diff) && diff !== bestDiff;
+                const isBest = isInLast20 && diff !== null && diff !== undefined && diff === bestDiff && bestDiff !== null;
+                const isCounted = isInLast20 && diff !== null && diff !== undefined && countedDiffs.includes(diff) && diff !== bestDiff;
 
                 let classes = 'round-item';
                 if (isBest) classes += ' best-round';
@@ -1810,6 +1869,7 @@
                 if (isBest) badges += `<span class="round-badge best">★ Best</span>`;
                 if (isCounted) badges += `<span class="round-badge counted">✓ Counted</span>`;
                 if (holes === 9) badges += `<span class="round-badge nine">9${nineLabel}</span>`;
+                if (holes === 9 && r.diffMethod === 'nineFallback') badges += `<span class="round-badge estimated">Est.</span>`;
 
                 return `<div class="${classes}" data-roundkey="${r.date}">
                             <div class="round-left">
@@ -1818,12 +1878,11 @@
                             </div>
                             <div class="round-right">
                                 <div class="round-score">${r.score}</div>
-                                <div class="round-diff">diff ${diff !== null && isFinite(diff) ? diff.toFixed(1) : '—'}</div>
+                                <div class="round-diff">diff ${diff !== null && diff !== undefined && isFinite(diff) ? diff.toFixed(1) : '—'}</div>
                             </div>
                         </div>`;
             }).join('');
 
-            // Bind edit click on each round
             list.querySelectorAll('.round-item').forEach(el => {
                 el.addEventListener('click', function() {
                     const key = parseInt(this.dataset.roundkey);
@@ -1916,23 +1975,6 @@
             });
         }
 
-        function populateTeeSelect() {
-            const courseId = document.getElementById('selectedCourseId').value;
-            const teeSelect = document.getElementById('scoreTeeSelect');
-            teeSelect.innerHTML = '<option value="">— Select tee —</option>';
-
-            const course = getCourse(courseId);
-            if (course) {
-                course.tees.forEach(t => {
-                    const opt = document.createElement('option');
-                    opt.value = t.color;
-                    opt.textContent = `${t.color} (${t.rating}/${t.slope})`;
-                    teeSelect.appendChild(opt);
-                });
-            }
-            updateScorePreview();
-        }
-
         function updateScorePreview() {
             const courseId = document.getElementById('selectedCourseId').value;
             const teeColor = document.getElementById('scoreTeeSelect').value;
@@ -1954,30 +1996,137 @@
                 return;
             }
 
-            const diff = calculateDifferential(score, tee.rating, tee.slope, holes, nineType);
+            // Use the CURRENT index for 9-hole preview calculation
+            const currentIndex = getHandicapIndex();
+            const result = calculateDifferential(score, tee.rating, tee.slope, holes, nineType, currentIndex);
+            const diff = result ? result.diff : null;
+            const method = result ? result.method : null;
+
             const holesDisplay = holes === 9 ? (nineType === 'front' ? 'Front 9' : nineType === 'back' ? 'Back 9' : '9 Holes') : '18 Holes';
-            
+
             document.getElementById('previewDate').textContent = formatISOToDisplay(playedDate);
             document.getElementById('previewTee').textContent = teeColor;
             document.getElementById('previewRating').textContent = tee.rating;
             document.getElementById('previewSlope').textContent = tee.slope;
             document.getElementById('previewHoles').textContent = holesDisplay;
             document.getElementById('previewDiff').textContent = diff !== null && isFinite(diff) ? diff.toFixed(1) : '—';
-            
+
             const note = document.getElementById('diffNote');
             if (holes === 9) {
                 note.style.display = 'block';
-                note.textContent = '9-hole differential × 2 = 18-hole equivalent for handicap calculation';
+                if (method === 'nineWHS') {
+                    note.textContent = `Uses WHS 9-hole rule: actual 9 + expected 9 from your index ${currentIndex.toFixed(1)}`;
+                } else if (method === 'nineFallback') {
+                    note.textContent = 'No established index yet — using simplified ×2 rule for this round.';
+                }
             } else {
                 note.style.display = 'none';
             }
-            
+
             previewDiv.style.display = 'block';
         }
 
         function navigateToAllRounds() {
             renderAllRounds();
             showView('allRoundsView');
+        }
+
+        // ============================================================
+        //  CALCULATE HDC LOGIC
+        // ============================================================
+
+        function updateCalcFriendFieldVisibility() {
+            const isFriend = document.getElementById('calcFriendMode').checked;
+            document.getElementById('calcFriendIndexGroup').style.display = isFriend ? 'block' : 'none';
+        }
+
+        function doCalculateHdc() {
+            const mode = document.getElementById('tabCourse').classList.contains('active') ? 'course' : 'manual';
+            const holes = parseInt(document.querySelector('input[name="calcHoles"]:checked').value);
+            const par = parseInt(document.getElementById('calcPar').value) || (holes === 9 ? 36 : 72);
+            const allowance = parseFloat(document.getElementById('calcAllowance').value);
+
+            // Determine rating, slope, and source
+            let rating, slope, courseLabel;
+
+            if (mode === 'course') {
+                const courseId = document.getElementById('calcSelectedCourseId').value;
+                const teeColor = document.getElementById('calcTeeSelect').value;
+
+                if (!courseId) { alert('Please select a course.'); return; }
+                if (!teeColor) { alert('Please select a tee.'); return; }
+
+                const course = getCourse(courseId);
+                const tee = course?.tees.find(t => t.color === teeColor);
+                if (!course || !tee) { alert('Course or tee not found.'); return; }
+
+                rating = tee.rating;
+                slope = tee.slope;
+                courseLabel = `${course.name} · ${teeColor}`;
+            } else {
+                rating = parseFloat(document.getElementById('calcRating').value);
+                slope = parseInt(document.getElementById('calcSlope').value);
+                const customName = document.getElementById('calcCourseName').value.trim();
+
+                if (!rating || rating < 50 || rating > 80) { alert('Please enter a valid Course Rating (50–80).'); return; }
+                if (!slope || slope < 55 || slope > 155) { alert('Please enter a valid Slope Rating (55–155).'); return; }
+
+                courseLabel = customName || 'Custom course';
+            }
+
+            // Determine the Handicap Index to use
+            let index;
+            const isFriend = document.getElementById('calcFriendMode').checked;
+
+            if (isFriend) {
+                index = parseFloat(document.getElementById('calcFriendIndex').value);
+                if (isNaN(index) || index < 0 || index > 54) {
+                    alert('Please enter a valid Handicap Index (0–54).');
+                    return;
+                }
+            } else {
+                index = getHandicapIndex();
+                if (index === null) {
+                    alert('No handicap index yet. Enter at least 3 rounds first, or switch to "Calculate for a friend" and enter an index manually.');
+                    return;
+                }
+            }
+
+            // 9-hole adjustment: use half the rating and slope
+            let adjustedRating = rating;
+            let adjustedSlope = slope;
+            let adjustedPar = par;
+
+            if (holes === 9) {
+                adjustedRating = rating / 2;
+                adjustedSlope = slope / 2;
+                adjustedPar = par / 2;
+            }
+
+            // WHS Course Handicap formula:
+            // Course Handicap = Index × (Slope / 113) + (Rating − Par)
+            const courseHandicapRaw = index * (adjustedSlope / 113) + (adjustedRating - adjustedPar);
+            const courseHandicap = Math.round(courseHandicapRaw);
+
+            // Playing Handicap = Course Handicap (unrounded) × Allowance
+            const playingHandicap = Math.round(courseHandicapRaw * allowance);
+
+            // Show results
+            document.getElementById('resultCourseHdc').textContent = courseHandicap;
+            document.getElementById('resultPlayingHdc').textContent = playingHandicap;
+
+            const holesLabel = holes === 9 ? '9 holes' : '18 holes';
+            const allowancePct = Math.round(allowance * 100);
+            const whoLabel = isFriend ? 'Friend' : 'You';
+
+            document.getElementById('resultDetail').innerHTML = `
+                ${whoLabel} · Index ${index.toFixed(1)}<br>
+                ${courseLabel}<br>
+                Rating ${adjustedRating.toFixed(1)} · Slope ${adjustedSlope.toFixed(0)} · Par ${adjustedPar} · ${holesLabel}<br>
+                Allowance ${allowancePct}%
+            `;
+
+            document.getElementById('calcResult').style.display = 'block';
         }
 
         // ============================================================
@@ -2094,36 +2243,17 @@
             if (!editingCourseId) return;
 
             const newName = document.getElementById('editCourseName').value.trim();
-            if (!newName) {
-                alert('Course name cannot be empty.');
-                return;
-            }
-
-            if (editingTees.length === 0) {
-                alert('A course must have at least one tee.');
-                return;
-            }
+            if (!newName) { alert('Course name cannot be empty.'); return; }
+            if (editingTees.length === 0) { alert('A course must have at least one tee.'); return; }
 
             for (const t of editingTees) {
-                if (!t.color || !t.color.trim()) {
-                    alert('All tees must have a color.');
-                    return;
-                }
-                if (!t.rating || t.rating < 50 || t.rating > 80) {
-                    alert(`Invalid rating for ${t.color}. Must be between 50 and 80.`);
-                    return;
-                }
-                if (!t.slope || t.slope < 55 || t.slope > 155) {
-                    alert(`Invalid slope for ${t.color}. Must be between 55 and 155.`);
-                    return;
-                }
+                if (!t.color || !t.color.trim()) { alert('All tees must have a color.'); return; }
+                if (!t.rating || t.rating < 50 || t.rating > 80) { alert(`Invalid rating for ${t.color}. Must be between 50 and 80.`); return; }
+                if (!t.slope || t.slope < 55 || t.slope > 155) { alert(`Invalid slope for ${t.color}. Must be between 55 and 155.`); return; }
             }
 
             const colors = editingTees.map(t => t.color.trim().toLowerCase());
-            if (new Set(colors).size !== colors.length) {
-                alert('Duplicate tee colors are not allowed.');
-                return;
-            }
+            if (new Set(colors).size !== colors.length) { alert('Duplicate tee colors are not allowed.'); return; }
 
             const course = getCourse(editingCourseId);
             if (!course) return;
@@ -2131,10 +2261,7 @@
             const nameConflict = courses.some(c =>
                 c.id !== editingCourseId && c.name.toLowerCase() === newName.toLowerCase()
             );
-            if (nameConflict) {
-                alert('Another course already uses this name.');
-                return;
-            }
+            if (nameConflict) { alert('Another course already uses this name.'); return; }
 
             const oldTeeColors = course.tees.map(t => t.color);
 
@@ -2185,22 +2312,18 @@
 
             editingRoundKey = roundKey;
 
-            // Populate course list
             const courseSelect = document.getElementById('editRoundCourse');
             courseSelect.innerHTML = courses.map(c =>
                 `<option value="${c.id}">${c.name}</option>`
             ).join('');
             courseSelect.value = round.courseId;
 
-            // Populate tees for the selected course
             populateEditRoundTees(round.courseId, round.teeColor);
 
-            // Set date
             const dateInput = document.getElementById('editRoundDate');
             dateInput.value = getRoundPlayedISO(round);
             dateInput.max = getTodayISO();
 
-            // Set holes
             const holes = round.holes || 18;
             document.querySelector(`input[name="editHoles"][value="${holes}"]`).checked = true;
             const nineOpts = document.getElementById('editNineOptions');
@@ -2213,7 +2336,6 @@
                 document.querySelector(`input[name="editNineType"][value="front"]`).checked = true;
             }
 
-            // Set score
             document.getElementById('editRoundScore').value = round.score;
 
             document.getElementById('editRoundModal').classList.add('show');
@@ -2254,36 +2376,23 @@
                 : null;
             const newScore = parseInt(document.getElementById('editRoundScore').value);
 
-            if (!newDate) {
-                alert('Please select a date.');
-                return;
-            }
-            if (newDate > getTodayISO()) {
-                alert('Future dates are not allowed.');
-                return;
-            }
-            if (!newCourseId) {
-                alert('Please select a course.');
-                return;
-            }
-            if (!newTeeColor) {
-                alert('Please select a tee.');
-                return;
-            }
-            if (!newScore || newScore < 18 || newScore > 150) {
-                alert('Score must be between 18 and 150.');
-                return;
-            }
+            if (!newDate) { alert('Please select a date.'); return; }
+            if (newDate > getTodayISO()) { alert('Future dates are not allowed.'); return; }
+            if (!newCourseId) { alert('Please select a course.'); return; }
+            if (!newTeeColor) { alert('Please select a tee.'); return; }
+            if (!newScore || newScore < 18 || newScore > 150) { alert('Score must be between 18 and 150.'); return; }
 
             const course = getCourse(newCourseId);
             const tee = course?.tees.find(t => t.color === newTeeColor);
-            if (!course || !tee) {
-                alert('Course or tee not found.');
-                return;
-            }
+            if (!course || !tee) { alert('Course or tee not found.'); return; }
 
-            const diff = calculateDifferential(newScore, tee.rating, tee.slope, newHoles, newNineType);
-            if (diff === null || !isFinite(diff)) {
+            // Use historical index (excluding this round) for 9-hole calc
+            const indexForCalc = newHoles === 9
+                ? computeHandicapIndex(rounds, editingRoundKey)
+                : null;
+
+            const result = calculateDifferential(newScore, tee.rating, tee.slope, newHoles, newNineType, indexForCalc);
+            if (!result || result.diff === null || !isFinite(result.diff)) {
                 alert('Invalid differential calculation.');
                 return;
             }
@@ -2294,7 +2403,9 @@
             round.holes = newHoles;
             round.nineType = newNineType;
             round.score = newScore;
-            round.differential = Math.round(diff * 10) / 10;
+            round.differential = Math.round(result.diff * 10) / 10;
+            round.diffMethod = result.method;
+            round.indexAtPlay = indexForCalc;
 
             saveRounds();
 
@@ -2333,14 +2444,12 @@
         document.addEventListener('DOMContentLoaded', function() {
             loadData();
 
-            // Set default played date on score form
             const playedDateInput = document.getElementById('playedDateInput');
             playedDateInput.value = getTodayISO();
             playedDateInput.max = getTodayISO();
-
             playedDateInput.addEventListener('change', updateScorePreview);
 
-            // Show/hide Front/Back 9 options
+            // Show/hide Front/Back 9 options (Enter Score)
             document.getElementById('nineHolesRadio').addEventListener('change', function() {
                 document.getElementById('nineOptions').style.display = this.checked ? 'flex' : 'none';
                 updateScorePreview();
@@ -2381,6 +2490,22 @@
                 showView('scoreView');
             });
 
+            document.getElementById('calculateHdcBtn').addEventListener('click', function() {
+                // Reset the calc view
+                document.getElementById('calcResult').style.display = 'none';
+                document.getElementById('calcFriendMode').checked = false;
+                document.getElementById('calcFriendIndexGroup').style.display = 'none';
+                document.getElementById('tabCourse').classList.add('active');
+                document.getElementById('tabManual').classList.remove('active');
+                document.getElementById('calcCourseSection').style.display = 'block';
+                document.getElementById('calcManualSection').style.display = 'none';
+                document.querySelector('input[name="calcHoles"][value="18"]').checked = true;
+                document.getElementById('calcPar').value = 72;
+                document.getElementById('calcAllowance').value = '0.95';
+                closeCalcDropdown();
+                showView('calculateView');
+            });
+
             document.getElementById('viewAllRoundsBtn').addEventListener('click', function() {
                 renderAllRounds();
                 showView('allRoundsView');
@@ -2401,6 +2526,12 @@
                 renderHome();
             });
 
+            document.getElementById('backFromCalc').addEventListener('click', function() {
+                closeCalcDropdown();
+                showView('homeView');
+                renderHome();
+            });
+
             document.getElementById('backFromRounds').addEventListener('click', function() {
                 showView('homeView');
                 renderHome();
@@ -2411,25 +2542,62 @@
                 renderHome();
             });
 
-            // Course selector
+            // ---- ENTER SCORE: course selector ----
             document.getElementById('selectedCourseDisplay').addEventListener('click', toggleDropdown);
-            
-            // Search input in dropdown
             document.getElementById('courseSearchInput').addEventListener('input', function() {
                 renderDropdownItems(this.value);
             });
-
-            // Close dropdown when clicking outside
             document.addEventListener('click', function(e) {
                 const wrapper = document.querySelector('.course-selector-wrapper');
                 if (wrapper && !wrapper.contains(e.target)) {
                     closeDropdown();
                 }
+                const calcWrapper = document.getElementById('calcCourseDropdownList').closest('.course-selector-wrapper');
+                if (calcWrapper && !calcWrapper.contains(e.target)) {
+                    closeCalcDropdown();
+                }
             });
 
-            // Score form events
             document.getElementById('scoreTeeSelect').addEventListener('change', updateScorePreview);
             document.getElementById('scoreInput').addEventListener('input', updateScorePreview);
+
+            // ---- CALCULATE view: course selector ----
+            document.getElementById('calcSelectedCourseDisplay').addEventListener('click', toggleCalcDropdown);
+            document.getElementById('calcCourseSearchInput').addEventListener('input', function() {
+                renderCalcDropdownItems(this.value);
+            });
+
+            // ---- CALCULATE view: mode tabs ----
+            document.getElementById('tabCourse').addEventListener('click', function() {
+                this.classList.add('active');
+                document.getElementById('tabManual').classList.remove('active');
+                document.getElementById('calcCourseSection').style.display = 'block';
+                document.getElementById('calcManualSection').style.display = 'none';
+            });
+            document.getElementById('tabManual').addEventListener('click', function() {
+                this.classList.add('active');
+                document.getElementById('tabCourse').classList.remove('active');
+                document.getElementById('calcCourseSection').style.display = 'none';
+                document.getElementById('calcManualSection').style.display = 'block';
+            });
+
+            // ---- CALCULATE view: holes toggle changes par default ----
+            document.querySelectorAll('input[name="calcHoles"]').forEach(el => {
+                el.addEventListener('change', function() {
+                    const parInput = document.getElementById('calcPar');
+                    if (this.value === '9') {
+                        parInput.value = 36;
+                    } else {
+                        parInput.value = 72;
+                    }
+                });
+            });
+
+            // ---- CALCULATE view: friend mode ----
+            document.getElementById('calcFriendMode').addEventListener('change', updateCalcFriendFieldVisibility);
+
+            // ---- CALCULATE view: calculate button ----
+            document.getElementById('calcBtn').addEventListener('click', doCalculateHdc);
 
             // Add tee (add course form)
             document.getElementById('addTeeBtn').addEventListener('click', function() {
@@ -2441,7 +2609,6 @@
                     alert('Please enter valid tee details (slope 55–155).');
                     return;
                 }
-
                 if (tempTees.some(t => t.color.toLowerCase() === color.toLowerCase())) {
                     alert('This tee color already exists.');
                     return;
@@ -2459,16 +2626,8 @@
                 e.preventDefault();
                 const name = document.getElementById('courseName').value.trim();
 
-                if (!name) {
-                    alert('Please enter a course name.');
-                    return;
-                }
-
-                if (tempTees.length === 0) {
-                    alert('Please add at least one tee.');
-                    return;
-                }
-
+                if (!name) { alert('Please enter a course name.'); return; }
+                if (tempTees.length === 0) { alert('Please add at least one tee.'); return; }
                 if (courses.some(c => c.name.toLowerCase() === name.toLowerCase())) {
                     alert('Course already exists.');
                     return;
@@ -2489,7 +2648,7 @@
                 alert('✅ Course added!');
             });
 
-            // ---- EDIT COURSE MODAL EVENTS ----
+            // ---- EDIT COURSE MODAL ----
             document.getElementById('editCancelBtn').addEventListener('click', closeEditModal);
             document.getElementById('editSaveBtn').addEventListener('click', saveEditCourse);
 
@@ -2498,18 +2657,9 @@
                 const rating = parseFloat(document.getElementById('editNewTeeRating').value);
                 const slope = parseInt(document.getElementById('editNewTeeSlope').value);
 
-                if (!color || isNaN(rating) || isNaN(slope)) {
-                    alert('Please fill in color, rating and slope.');
-                    return;
-                }
-                if (rating < 50 || rating > 80) {
-                    alert('Rating must be between 50 and 80.');
-                    return;
-                }
-                if (slope < 55 || slope > 155) {
-                    alert('Slope must be between 55 and 155.');
-                    return;
-                }
+                if (!color || isNaN(rating) || isNaN(slope)) { alert('Please fill in color, rating and slope.'); return; }
+                if (rating < 50 || rating > 80) { alert('Rating must be between 50 and 80.'); return; }
+                if (slope < 55 || slope > 155) { alert('Slope must be between 55 and 155.'); return; }
                 if (editingTees.some(t => t.color.toLowerCase() === color.toLowerCase())) {
                     alert('This tee color already exists.');
                     return;
@@ -2527,17 +2677,15 @@
                 if (e.target === this) closeEditModal();
             });
 
-            // ---- EDIT ROUND MODAL EVENTS ----
+            // ---- EDIT ROUND MODAL ----
             document.getElementById('editRoundCancelBtn').addEventListener('click', closeEditRoundModal);
             document.getElementById('editRoundSaveBtn').addEventListener('click', saveEditRound);
             document.getElementById('editRoundDeleteBtn').addEventListener('click', deleteEditRound);
 
-            // When course changes in edit round, refresh tees
             document.getElementById('editRoundCourse').addEventListener('change', function() {
                 populateEditRoundTees(this.value, null);
             });
 
-            // Holes toggle in edit round
             document.getElementById('editNineHolesRadio').addEventListener('change', function() {
                 document.getElementById('editNineOptions').style.display = this.checked ? 'flex' : 'none';
             });
@@ -2549,14 +2697,13 @@
                 });
             });
 
-            // Set max date for edit round date input
             document.getElementById('editRoundDate').max = getTodayISO();
 
             document.getElementById('editRoundModal').addEventListener('click', function(e) {
                 if (e.target === this) closeEditRoundModal();
             });
 
-            // Submit score
+            // ---- SUBMIT SCORE ----
             document.getElementById('scoreForm').addEventListener('submit', function(e) {
                 e.preventDefault();
                 const playedDate = document.getElementById('playedDateInput').value;
@@ -2566,36 +2713,22 @@
                 const holes = parseInt(document.querySelector('input[name="holes"]:checked').value);
                 const nineType = document.querySelector('input[name="nineType"]:checked')?.value || null;
 
-                if (!playedDate) {
-                    alert('Please select the date the round was played.');
-                    return;
-                }
-                if (playedDate > getTodayISO()) {
-                    alert('Future dates are not allowed.');
-                    return;
-                }
-                if (!courseId) {
-                    alert('Please select a course.');
-                    return;
-                }
-                if (!teeColor) {
-                    alert('Please select a tee color.');
-                    return;
-                }
-                if (!score || score < 18 || score > 150) {
-                    alert('Please enter a valid adjusted gross score (18–150).');
-                    return;
-                }
+                if (!playedDate) { alert('Please select the date the round was played.'); return; }
+                if (playedDate > getTodayISO()) { alert('Future dates are not allowed.'); return; }
+                if (!courseId) { alert('Please select a course.'); return; }
+                if (!teeColor) { alert('Please select a tee color.'); return; }
+                if (!score || score < 18 || score > 150) { alert('Please enter a valid adjusted gross score (18–150).'); return; }
 
                 const course = getCourse(courseId);
                 const tee = course?.tees.find(t => t.color === teeColor);
-                if (!course || !tee) {
-                    alert('Course or tee not found.');
-                    return;
-                }
+                if (!course || !tee) { alert('Course or tee not found.'); return; }
 
-                const diff = calculateDifferential(score, tee.rating, tee.slope, holes, nineType);
-                if (diff === null || !isFinite(diff)) {
+                // For 9-hole: use the CURRENT index (before adding this round)
+                const currentIndex = getHandicapIndex();
+                const indexForCalc = holes === 9 ? currentIndex : null;
+
+                const result = calculateDifferential(score, tee.rating, tee.slope, holes, nineType, indexForCalc);
+                if (!result || result.diff === null || !isFinite(result.diff)) {
                     alert('Invalid differential calculation.');
                     return;
                 }
@@ -2606,17 +2739,19 @@
                     score,
                     holes,
                     nineType: holes === 9 ? nineType : null,
-                    differential: Math.round(diff * 10) / 10,
+                    differential: Math.round(result.diff * 10) / 10,
+                    diffMethod: result.method,
+                    indexAtPlay: indexForCalc,
                     playedDate: playedDate,
                     date: Date.now()
                 });
                 saveRounds();
 
-                const diffDisplay = diff.toFixed(1);
+                const diffDisplay = result.diff.toFixed(1);
                 const holesDisplay = holes === 9 ? `9 (${nineType === 'front' ? 'Front' : 'Back'} 9)` : '18';
                 const dateDisplay = formatISOToDisplay(playedDate);
                 document.getElementById('scoreMessage').textContent = `✅ Round saved! ${dateDisplay} · ${holesDisplay} diff: ${diffDisplay}`;
-                
+
                 document.getElementById('scoreForm').reset();
                 playedDateInput.value = getTodayISO();
                 document.getElementById('scorePreview').style.display = 'none';
@@ -2647,6 +2782,63 @@
 
         window.navigateToAllRounds = navigateToAllRounds;
     </script>
+
+    <!-- Back-button handler (kept from previous version) -->
+    <script>
+    // ===== Phone back button =====
+    (function () {
+        const $ = id => document.getElementById(id);
+        let currentView = 'homeView';
+        history.replaceState({ view: 'homeView' }, '');
+
+        window.showView = function (viewId, fromHistory) {
+            document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+            $(viewId).classList.add('active');
+            if (fromHistory) { currentView = viewId; return; }
+            if (viewId === 'homeView') {
+                if (history.state && history.state.view !== 'homeView') history.back();
+                currentView = 'homeView';
+                return;
+            }
+            if (currentView !== viewId) history.pushState({ view: viewId }, '');
+            currentView = viewId;
+        };
+
+        window.addEventListener('popstate', function (e) {
+            $('editCourseModal').classList.remove('show');
+            $('editRoundModal').classList.remove('show');
+            try { closeDropdown(); } catch (err) {}
+            try { closeCalcDropdown(); } catch (err) {}
+            const view = (e.state && e.state.view) || 'homeView';
+            window.showView(view, true);
+            if (view === 'homeView') renderHome();
+        });
+
+        function wrapOpen(name, modalId) {
+            const orig = window[name];
+            if (!orig) return;
+            window[name] = function () {
+                orig.apply(this, arguments);
+                if ($(modalId).classList.contains('show')) {
+                    history.pushState({ view: currentView, modal: true }, '');
+                }
+            };
+        }
+        function wrapClose(name) {
+            const orig = window[name];
+            if (!orig) return;
+            window[name] = function () {
+                orig.apply(this, arguments);
+                if (history.state && history.state.modal) history.back();
+            };
+        }
+        wrapOpen('openEditModal', 'editCourseModal');
+        wrapOpen('openEditRoundModal', 'editRoundModal');
+        wrapClose('closeEditModal');
+        wrapClose('closeEditRoundModal');
+    })();
+    </script>
+
     <script>
     // Register service worker (required for PWA install)
     if ('serviceWorker' in navigator) {
@@ -2656,6 +2848,6 @@
                 .catch(err => console.warn('⚠️ SW registration failed:', err));
         });
     }
-</script>
+    </script>
 </body>
 </html>
