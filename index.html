@@ -3939,100 +3939,70 @@ document.addEventListener('DOMContentLoaded', function () {
 </script>
 
 <!-- ============================================================
-     BACK BUTTON HANDLER (v3 - works every time)
+     BACK BUTTON HANDLER
+     Handles Android/browser back button to close modals and navigate
+     (proven logic from v2.4)
      ============================================================ -->
 <script>
 (function () {
     'use strict';
     const $ = id => document.getElementById(id);
-
     let currentView = 'homeView';
+    history.replaceState({ view: 'homeView' }, '');
 
-    // Seed the history with two entries so back always has something to go to.
-    history.replaceState({ view: 'homeView', app: true }, '');
-
-    // Intercept showView from Part 2 / Part 3
+    // Wrap window.showView to track history
     window.showView = function (viewId, fromHistory) {
         document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
         const target = $(viewId);
         if (target) target.classList.add('active');
-
-        const systemViews = ['authView', 'loadingView', 'migrationView'];
-        if (systemViews.includes(viewId)) {
-            currentView = viewId;
-            return;
-        }
 
         if (fromHistory) {
             currentView = viewId;
             return;
         }
 
-        // If we're navigating away from homeView to any other app view,
-        // push a new history entry so back can return us.
-        if (viewId !== 'homeView' && currentView !== viewId) {
-            history.pushState({ view: viewId, app: true }, '');
-        }
-
-        // If we're going back to homeView by tapping something, also push so the
-        // next back closes the app cleanly (matching native behaviour).
         if (viewId === 'homeView') {
-            // Nothing extra needed — home is the root
+            if (history.state && history.state.view !== 'homeView') history.back();
+            currentView = 'homeView';
+            return;
         }
 
+        // System views (auth, loading, migration) don't push to history
+        if (viewId === 'authView' || viewId === 'loadingView' || viewId === 'migrationView') {
+            currentView = viewId;
+            return;
+        }
+
+        if (currentView !== viewId) history.pushState({ view: viewId }, '');
         currentView = viewId;
     };
 
-    // Handle the hardware / browser back button
     window.addEventListener('popstate', function (e) {
-        // 1) Close any open modals first
+        // Close modals first
         const editCourseModal = $('editCourseModal');
         const editRoundModal = $('editRoundModal');
-        let modalWasClosed = false;
-        if (editCourseModal && editCourseModal.classList.contains('show')) {
-            editCourseModal.classList.remove('show');
-            modalWasClosed = true;
-        }
-        if (editRoundModal && editRoundModal.classList.contains('show')) {
-            editRoundModal.classList.remove('show');
-            modalWasClosed = true;
-        }
+        if (editCourseModal) editCourseModal.classList.remove('show');
+        if (editRoundModal) editRoundModal.classList.remove('show');
+
         try { if (window.appFunctions) window.appFunctions.closeDropdown(); } catch (err) {}
         try { if (window.appFunctions) window.appFunctions.closeCalcDropdown(); } catch (err) {}
 
-        // 2) Not logged in → force auth screen
+        const view = (e.state && e.state.view) || 'homeView';
+
+        // If not logged in, force auth/migration
         if (!window.getCurrentUser || !window.getCurrentUser()) {
             const authView = $('authView');
             const migrationView = $('migrationView');
             if (authView && !authView.classList.contains('active') &&
                 migrationView && !migrationView.classList.contains('active')) {
-                history.pushState({ view: 'authView', app: true }, '');
                 window.showView('authView', true);
                 return;
             }
         }
 
-        // 3) If we closed a modal, re-push a marker so the NEXT back works too.
-        if (modalWasClosed) {
-            history.pushState({ view: currentView, app: true }, '');
-            return;
-        }
-
-        // 4) Read the target view from the popped state
-        const stateView = (e.state && e.state.view) ? e.state.view : 'homeView';
-
-        // 5) Move to that view
-        window.showView(stateView, true);
-        if (stateView === 'homeView' && window.appFunctions) {
+        window.showView(view, true);
+        if (view === 'homeView' && window.appFunctions) {
             window.appFunctions.renderHome();
-        }
-
-        // 6) THE CRITICAL FIX — always push a marker so the next back press
-        //    also fires popstate instead of exiting the app.
-        //    BUT: if we're already on home, don't push — that would trap the user
-        //    and stop them closing the app.
-        if (stateView !== 'homeView') {
-            history.pushState({ view: stateView, app: true }, '');
         }
     });
 
@@ -4047,13 +4017,13 @@ document.addEventListener('DOMContentLoaded', function () {
         window.appFunctions.openEditModal = function () {
             openEditModalOrig.apply(this, arguments);
             if ($('editCourseModal').classList.contains('show')) {
-                history.pushState({ view: currentView, modal: true, app: true }, '');
+                history.pushState({ view: currentView, modal: true }, '');
             }
         };
         window.appFunctions.openEditRoundModal = function () {
             openEditRoundModalOrig.apply(this, arguments);
             if ($('editRoundModal').classList.contains('show')) {
-                history.pushState({ view: currentView, modal: true, app: true }, '');
+                history.pushState({ view: currentView, modal: true }, '');
             }
         };
         window.appFunctions.closeEditModal = function () {
