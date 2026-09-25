@@ -3939,44 +3939,24 @@ document.addEventListener('DOMContentLoaded', function () {
 </script>
 
 <!-- ============================================================
-     BACK BUTTON HANDLER (v2 - fixed)
-     Handles Android/browser back button to close modals and navigate
+     BACK BUTTON HANDLER (v3 - works every time)
      ============================================================ -->
 <script>
 (function () {
     'use strict';
     const $ = id => document.getElementById(id);
+
     let currentView = 'homeView';
-    let lastRealView = 'homeView';
 
-    // Immediately replace state so we have a base entry
+    // Seed the history with two entries so back always has something to go to.
     history.replaceState({ view: 'homeView', app: true }, '');
-
-    // Keep a running "previous view" that we return to on back
-    const viewStack = ['homeView'];
-
-    function pushView(viewId) {
-        const last = viewStack[viewStack.length - 1];
-        if (last === viewId) return;
-        viewStack.push(viewId);
-        history.pushState({ view: viewId, app: true }, '');
-    }
-
-    function popView() {
-        if (viewStack.length > 1) {
-            viewStack.pop();
-        }
-        return viewStack[viewStack.length - 1];
-    }
 
     // Intercept showView from Part 2 / Part 3
     window.showView = function (viewId, fromHistory) {
-        // Physically swap the visible view
         document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
         const target = $(viewId);
         if (target) target.classList.add('active');
 
-        // System views (auth, loading, migration) don't push to history
         const systemViews = ['authView', 'loadingView', 'migrationView'];
         if (systemViews.includes(viewId)) {
             currentView = viewId;
@@ -3988,58 +3968,71 @@ document.addEventListener('DOMContentLoaded', function () {
             return;
         }
 
-        // Remember this as the last "app" view
-        lastRealView = viewId;
-
-        // homeView acts as the bottom of the stack
-        if (viewId === 'homeView') {
-            // Pop back to home if we're not already there
-            if (viewStack[viewStack.length - 1] !== 'homeView') {
-                viewStack.length = 1;
-                viewStack[0] = 'homeView';
-            }
-            currentView = 'homeView';
-            return;
+        // If we're navigating away from homeView to any other app view,
+        // push a new history entry so back can return us.
+        if (viewId !== 'homeView' && currentView !== viewId) {
+            history.pushState({ view: viewId, app: true }, '');
         }
 
-        // Push onto our stack + browser history
-        pushView(viewId);
+        // If we're going back to homeView by tapping something, also push so the
+        // next back closes the app cleanly (matching native behaviour).
+        if (viewId === 'homeView') {
+            // Nothing extra needed — home is the root
+        }
+
         currentView = viewId;
     };
 
     // Handle the hardware / browser back button
     window.addEventListener('popstate', function (e) {
-        // Close any open modals first
+        // 1) Close any open modals first
         const editCourseModal = $('editCourseModal');
         const editRoundModal = $('editRoundModal');
-        if (editCourseModal) editCourseModal.classList.remove('show');
-        if (editRoundModal) editRoundModal.classList.remove('show');
+        let modalWasClosed = false;
+        if (editCourseModal && editCourseModal.classList.contains('show')) {
+            editCourseModal.classList.remove('show');
+            modalWasClosed = true;
+        }
+        if (editRoundModal && editRoundModal.classList.contains('show')) {
+            editRoundModal.classList.remove('show');
+            modalWasClosed = true;
+        }
         try { if (window.appFunctions) window.appFunctions.closeDropdown(); } catch (err) {}
         try { if (window.appFunctions) window.appFunctions.closeCalcDropdown(); } catch (err) {}
 
-        // If user is not logged in → always land on auth/migration
+        // 2) Not logged in → force auth screen
         if (!window.getCurrentUser || !window.getCurrentUser()) {
             const authView = $('authView');
             const migrationView = $('migrationView');
             if (authView && !authView.classList.contains('active') &&
                 migrationView && !migrationView.classList.contains('active')) {
-                // Force a fresh history entry so next back exits cleanly
                 history.pushState({ view: 'authView', app: true }, '');
                 window.showView('authView', true);
                 return;
             }
         }
 
-        // Pop our stack and show the resulting view
-        const view = popView();
-        window.showView(view, true);
-        if (view === 'homeView' && window.appFunctions) {
+        // 3) If we closed a modal, re-push a marker so the NEXT back works too.
+        if (modalWasClosed) {
+            history.pushState({ view: currentView, app: true }, '');
+            return;
+        }
+
+        // 4) Read the target view from the popped state
+        const stateView = (e.state && e.state.view) ? e.state.view : 'homeView';
+
+        // 5) Move to that view
+        window.showView(stateView, true);
+        if (stateView === 'homeView' && window.appFunctions) {
             window.appFunctions.renderHome();
         }
 
-        // Push a marker entry so the *next* back press still fires popstate
-        if (view !== 'homeView' || viewStack.length > 1) {
-            history.pushState({ view, app: true }, '');
+        // 6) THE CRITICAL FIX — always push a marker so the next back press
+        //    also fires popstate instead of exiting the app.
+        //    BUT: if we're already on home, don't push — that would trap the user
+        //    and stop them closing the app.
+        if (stateView !== 'homeView') {
+            history.pushState({ view: stateView, app: true }, '');
         }
     });
 
@@ -4073,17 +4066,11 @@ document.addEventListener('DOMContentLoaded', function () {
         };
     }
 
-    // Wait for Part 3 to finish loading before wrapping its functions
     if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', wrapModals);
     } else {
         setTimeout(wrapModals, 100);
     }
-
-    // Also push a history entry when user lands on homeView after login
-    setTimeout(function () {
-        history.pushState({ view: 'homeView', app: true }, '');
-    }, 500);
 
 })();
 </script>
