@@ -3939,7 +3939,7 @@ document.addEventListener('DOMContentLoaded', function () {
 </script>
 
 <!-- ============================================================
-     BACK BUTTON HANDLER
+     BACK BUTTON HANDLER (v2 - fixed)
      Handles Android/browser back button to close modals and navigate
      ============================================================ -->
 <script>
@@ -3947,131 +3947,143 @@ document.addEventListener('DOMContentLoaded', function () {
     'use strict';
     const $ = id => document.getElementById(id);
     let currentView = 'homeView';
-    history.replaceState({ view: 'homeView' }, '');
+    let lastRealView = 'homeView';
 
-    // Wrap window.showView to track history
-    const originalShowView = window.showView;
+    // Immediately replace state so we have a base entry
+    history.replaceState({ view: 'homeView', app: true }, '');
+
+    // Keep a running "previous view" that we return to on back
+    const viewStack = ['homeView'];
+
+    function pushView(viewId) {
+        const last = viewStack[viewStack.length - 1];
+        if (last === viewId) return;
+        viewStack.push(viewId);
+        history.pushState({ view: viewId, app: true }, '');
+    }
+
+    function popView() {
+        if (viewStack.length > 1) {
+            viewStack.pop();
+        }
+        return viewStack[viewStack.length - 1];
+    }
+
+    // Intercept showView from Part 2 / Part 3
     window.showView = function (viewId, fromHistory) {
+        // Physically swap the visible view
         document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
         const target = $(viewId);
         if (target) target.classList.add('active');
+
+        // System views (auth, loading, migration) don't push to history
+        const systemViews = ['authView', 'loadingView', 'migrationView'];
+        if (systemViews.includes(viewId)) {
+            currentView = viewId;
+            return;
+        }
 
         if (fromHistory) {
             currentView = viewId;
             return;
         }
+
+        // Remember this as the last "app" view
+        lastRealView = viewId;
+
+        // homeView acts as the bottom of the stack
         if (viewId === 'homeView') {
-            if (history.state && history.state.view !== 'homeView') history.back();
+            // Pop back to home if we're not already there
+            if (viewStack[viewStack.length - 1] !== 'homeView') {
+                viewStack.length = 1;
+                viewStack[0] = 'homeView';
+            }
             currentView = 'homeView';
             return;
         }
-        // Don't push auth/loading/migration into history — they're system states
-        if (viewId === 'authView' || viewId === 'loadingView' || viewId === 'migrationView') {
-            currentView = viewId;
-            return;
-        }
-        if (currentView !== viewId) history.pushState({ view: viewId }, '');
+
+        // Push onto our stack + browser history
+        pushView(viewId);
         currentView = viewId;
     };
 
+    // Handle the hardware / browser back button
     window.addEventListener('popstate', function (e) {
         // Close any open modals first
         const editCourseModal = $('editCourseModal');
         const editRoundModal = $('editRoundModal');
         if (editCourseModal) editCourseModal.classList.remove('show');
         if (editRoundModal) editRoundModal.classList.remove('show');
-
         try { if (window.appFunctions) window.appFunctions.closeDropdown(); } catch (err) {}
         try { if (window.appFunctions) window.appFunctions.closeCalcDropdown(); } catch (err) {}
 
-        const view = (e.state && e.state.view) || 'homeView';
-
-        // If user is not logged in, don't allow back to leave auth
-        if (!window.isUserLoggedIn || !window.isUserLoggedIn()) {
+        // If user is not logged in → always land on auth/migration
+        if (!window.getCurrentUser || !window.getCurrentUser()) {
             const authView = $('authView');
             const migrationView = $('migrationView');
             if (authView && !authView.classList.contains('active') &&
                 migrationView && !migrationView.classList.contains('active')) {
-                // Currently showing app screens but not logged in — go back to auth
-                window.showView('authView');
+                // Force a fresh history entry so next back exits cleanly
+                history.pushState({ view: 'authView', app: true }, '');
+                window.showView('authView', true);
                 return;
             }
         }
 
+        // Pop our stack and show the resulting view
+        const view = popView();
         window.showView(view, true);
-        if (view === 'homeView' && window.appFunctions) window.appFunctions.renderHome();
+        if (view === 'homeView' && window.appFunctions) {
+            window.appFunctions.renderHome();
+        }
+
+        // Push a marker entry so the *next* back press still fires popstate
+        if (view !== 'homeView' || viewStack.length > 1) {
+            history.pushState({ view, app: true }, '');
+        }
     });
 
-    // Wrap open/close modal functions to add history entries
-    function wrapOpen(name, modalId) {
-        const orig = window[name];
-        if (!orig || typeof orig !== 'function') {
-            // It's on window.appFunctions
-            const fnOrig = window.appFunctions && window.appFunctions[name];
-            if (!fnOrig) return;
-            window.appFunctions[name] = function () {
-                fnOrig.apply(this, arguments);
-                if ($(modalId).classList.contains('show')) {
-                    history.pushState({ view: currentView, modal: true }, '');
-                }
-            };
-            return;
-        }
-        window[name] = function () {
-            orig.apply(this, arguments);
-            if ($(modalId).classList.contains('show')) {
-                history.pushState({ view: currentView, modal: true }, '');
+    // Wrap modal open/close to add/remove history entries
+    function wrapModals() {
+        if (!window.appFunctions) return;
+        const openEditModalOrig = window.appFunctions.openEditModal;
+        const openEditRoundModalOrig = window.appFunctions.openEditRoundModal;
+        const closeEditModalOrig = window.appFunctions.closeEditModal;
+        const closeEditRoundModalOrig = window.appFunctions.closeEditRoundModal;
+
+        window.appFunctions.openEditModal = function () {
+            openEditModalOrig.apply(this, arguments);
+            if ($('editCourseModal').classList.contains('show')) {
+                history.pushState({ view: currentView, modal: true, app: true }, '');
             }
         };
-    }
-
-    function wrapClose(name) {
-        const orig = window[name];
-        if (!orig || typeof orig !== 'function') {
-            const fnOrig = window.appFunctions && window.appFunctions[name];
-            if (!fnOrig) return;
-            window.appFunctions[name] = function () {
-                fnOrig.apply(this, arguments);
-                if (history.state && history.state.modal) history.back();
-            };
-            return;
-        }
-        window[name] = function () {
-            orig.apply(this, arguments);
+        window.appFunctions.openEditRoundModal = function () {
+            openEditRoundModalOrig.apply(this, arguments);
+            if ($('editRoundModal').classList.contains('show')) {
+                history.pushState({ view: currentView, modal: true, app: true }, '');
+            }
+        };
+        window.appFunctions.closeEditModal = function () {
+            closeEditModalOrig.apply(this, arguments);
+            if (history.state && history.state.modal) history.back();
+        };
+        window.appFunctions.closeEditRoundModal = function () {
+            closeEditRoundModalOrig.apply(this, arguments);
             if (history.state && history.state.modal) history.back();
         };
     }
 
-    // Give Part 3's functions time to load
-    setTimeout(function () {
-        if (window.appFunctions) {
-            const openEditModalOrig = window.appFunctions.openEditModal;
-            const openEditRoundModalOrig = window.appFunctions.openEditRoundModal;
-            const closeEditModalOrig = window.appFunctions.closeEditModal;
-            const closeEditRoundModalOrig = window.appFunctions.closeEditRoundModal;
+    // Wait for Part 3 to finish loading before wrapping its functions
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', wrapModals);
+    } else {
+        setTimeout(wrapModals, 100);
+    }
 
-            window.appFunctions.openEditModal = function () {
-                openEditModalOrig.apply(this, arguments);
-                if ($('editCourseModal').classList.contains('show')) {
-                    history.pushState({ view: currentView, modal: true }, '');
-                }
-            };
-            window.appFunctions.openEditRoundModal = function () {
-                openEditRoundModalOrig.apply(this, arguments);
-                if ($('editRoundModal').classList.contains('show')) {
-                    history.pushState({ view: currentView, modal: true }, '');
-                }
-            };
-            window.appFunctions.closeEditModal = function () {
-                closeEditModalOrig.apply(this, arguments);
-                if (history.state && history.state.modal) history.back();
-            };
-            window.appFunctions.closeEditRoundModal = function () {
-                closeEditRoundModalOrig.apply(this, arguments);
-                if (history.state && history.state.modal) history.back();
-            };
-        }
-    }, 100);
+    // Also push a history entry when user lands on homeView after login
+    setTimeout(function () {
+        history.pushState({ view: 'homeView', app: true }, '');
+    }, 500);
 
 })();
 </script>
