@@ -1775,9 +1775,24 @@
                 <h3>Data &amp; Privacy</h3>
                 <p>Your data is stored securely in Google Firebase and is only accessible to you. We do not sell or share your data with anyone. See our Privacy Policy for full details.</p>
 
-                <h3>Feedback &amp; Support</h3>
-                <p>This app is actively developed. If you have feedback, suggestions, or find a bug, please reach out.</p>
+<h3>Feedback &amp; Support</h3>
+<p>This app is actively built and improved. Whether it's a bug, a suggestion, a new course you'd like added, or just a friendly hello — we'd love to hear from you.</p>
 
+<div style="margin-top:12px;">
+    <a href="mailto:info@golfhandicap.co.za?subject=Golf%20Handicap%20Feedback" 
+       style="display:flex;align-items:center;gap:12px;padding:14px 16px;background:#1e4d3a;color:white;border-radius:12px;text-decoration:none;font-weight:600;">
+        <span style="font-size:22px;">✉️</span>
+        <div style="flex:1;">
+            <div>Email us</div>
+            <div style="font-size:12px;opacity:0.85;font-weight:400;margin-top:2px;">info@golfhandicap.co.za</div>
+        </div>
+        <span style="font-size:18px;">→</span>
+    </a>
+</div>
+
+<p style="font-size:12px;color:#7a6b5c;margin-top:14px;">
+    We usually reply within a day or two. Thanks for helping make this app better.
+</p>
                 <div class="last-updated">Version 3.0 · Last updated 25-Sep-2026</div>
             </div>
         </div>
@@ -1822,14 +1837,26 @@
                 <h3>Data Deletion</h3>
                 <p>You can delete individual rounds and courses directly in the app. To delete your entire account and all data, please contact us. We will permanently delete your account within 30 days.</p>
 
-                <h3>Children</h3>
-                <p>This app is not intended for children under 13. If we discover a child under 13 has created an account, we will delete it.</p>
+<h3>Age</h3>
+<p>This app is suitable for golfers of all ages. We do not collect age information and we do not target advertising or content based on age.</p>
 
                 <h3>Changes to This Policy</h3>
                 <p>We may update this policy occasionally. Any significant changes will be announced in the app. Continued use means you accept the updated policy.</p>
 
-                <h3>Contact</h3>
-                <p>For any privacy-related questions or to exercise your rights, please contact the app owner.</p>
+<h3>Contact</h3>
+<p>For any privacy-related questions or to exercise your rights, please contact us:</p>
+
+<div style="margin-top:12px;">
+    <a href="mailto:info@golfhandicap.co.za?subject=Privacy%20Question%20-%20Golf%20Handicap" 
+       style="display:flex;align-items:center;gap:12px;padding:14px 16px;background:#1e4d3a;color:white;border-radius:12px;text-decoration:none;font-weight:600;">
+        <span style="font-size:22px;">✉️</span>
+        <div style="flex:1;">
+            <div>Email us privately</div>
+            <div style="font-size:12px;opacity:0.85;font-weight:400;margin-top:2px;">info@golfhandicap.co.za</div>
+        </div>
+        <span style="font-size:18px;">→</span>
+    </a>
+</div>
 
                 <div class="last-updated">Version 3.0 · Last updated 25-Sep-2026</div>
             </div>
@@ -2464,26 +2491,23 @@
     // ============================================================
     //  PAGE LINKS (About / Privacy from various screens)
     // ============================================================
-    ['authAboutLink', 'homeAboutLink'].forEach(id => {
-        const el = document.getElementById(id);
-        if (el) el.addEventListener('click', () => showView('aboutView'));
-    });
-    ['authPrivacyLink', 'homePrivacyLink'].forEach(id => {
-        const el = document.getElementById(id);
-        if (el) el.addEventListener('click', () => showView('privacyView'));
-    });
-
+['authAboutLink', 'homeAboutLink'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.addEventListener('click', () => window.showView('aboutView'));
+});
+['authPrivacyLink', 'homePrivacyLink'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.addEventListener('click', () => window.showView('privacyView'));
+});
     document.getElementById('backFromAbout').addEventListener('click', () => {
-        // Return to home if logged in, else auth
-        if (currentUser) showView('homeView');
-        else showView('authView');
-    });
+    if (currentUser) window.showView('homeView');
+    else window.showView('authView');
+});
 
-    document.getElementById('backFromPrivacy').addEventListener('click', () => {
-        if (currentUser) showView('homeView');
-        else showView('authView');
-    });
-
+document.getElementById('backFromPrivacy').addEventListener('click', () => {
+    if (currentUser) window.showView('homeView');
+    else window.showView('authView');
+});
     // ============================================================
     //  EXPOSE HELPERS FOR PART 3
     // ============================================================
