@@ -1165,6 +1165,157 @@
 </head>
 <body>
 
+<!-- ============================================================
+     BACK BUTTON HANDLER — v4 (runs FIRST, before all other code)
+     Must be at the top so it catches the phone back button
+     ============================================================ -->
+<script>
+(function () {
+    'use strict';
+
+    // Seed history IMMEDIATELY so Android has an entry to pop back to.
+    // Using two entries ensures the very first back press fires popstate.
+    history.replaceState({ view: 'homeView', app: true }, '');
+    history.pushState({ view: 'homeView', app: true }, '');
+
+    let currentView = 'homeView';
+    let backButtonLocked = false;
+
+    // Public helper — Part 2/3/4 will call this via window.showView
+    window.showView = function (viewId, fromHistory) {
+        // Toggle visible view
+        document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+        const target = document.getElementById(viewId);
+        if (target) target.classList.add('active');
+
+        // System views — not part of navigation stack
+        const systemViews = ['authView', 'loadingView', 'migrationView'];
+        if (systemViews.includes(viewId)) {
+            currentView = viewId;
+            return;
+        }
+
+        // If we're being called by our own popstate handler, don't re-push
+        if (fromHistory) {
+            currentView = viewId;
+            return;
+        }
+
+        // If same view, do nothing
+        if (currentView === viewId) return;
+
+        // Push a new history entry for the new view
+        history.pushState({ view: viewId, app: true }, '');
+        currentView = viewId;
+    };
+
+    // Set up popstate listener EARLY
+    window.addEventListener('popstate', function (e) {
+        // Close modals first
+        const editCourseModal = document.getElementById('editCourseModal');
+        const editRoundModal = document.getElementById('editRoundModal');
+        let modalWasClosed = false;
+        if (editCourseModal && editCourseModal.classList.contains('show')) {
+            editCourseModal.classList.remove('show');
+            modalWasClosed = true;
+        }
+        if (editRoundModal && editRoundModal.classList.contains('show')) {
+            editRoundModal.classList.remove('show');
+            modalWasClosed = true;
+        }
+        try { if (window.appFunctions) window.appFunctions.closeDropdown(); } catch (err) {}
+        try { if (window.appFunctions) window.appFunctions.closeCalcDropdown(); } catch (err) {}
+
+        // If we closed a modal, re-arm so the next back also fires
+        if (modalWasClosed) {
+            history.pushState({ view: currentView, app: true }, '');
+            return;
+        }
+
+        // If not logged in, always show auth
+        const isLoggedIn = window.getCurrentUser && window.getCurrentUser();
+        if (!isLoggedIn) {
+            const authView = document.getElementById('authView');
+            const migrationView = document.getElementById('migrationView');
+            if (authView && !authView.classList.contains('active') &&
+                migrationView && !migrationView.classList.contains('active')) {
+                history.pushState({ view: 'authView', app: true }, '');
+                window.showView('authView', true);
+                return;
+            }
+        }
+
+        // Otherwise, respect the state that was popped
+        const state = e.state;
+        if (state && state.app) {
+            const viewId = state.view || 'homeView';
+            window.showView(viewId, true);
+            if (viewId === 'homeView' && window.appFunctions) {
+                window.appFunctions.renderHome();
+            }
+
+            // IMPORTANT — re-arm the back button so it keeps working.
+            // BUT only if we're NOT at home. Home is the bottom of the stack
+            // and we want the user to be able to exit from there.
+            if (viewId !== 'homeView') {
+                history.pushState({ view: viewId, app: true }, '');
+            }
+        } else {
+            // We're at the very bottom of the stack — let Android exit the app.
+            // But keep the current view visible so it doesn't look like a bug.
+            // (The app will exit naturally.)
+        }
+    });
+
+    // Modal wrapping — attach on DOMContentLoaded or immediately
+    function wrapModals() {
+        if (!window.appFunctions) {
+            // Part 3 hasn't loaded yet — try again in 100ms
+            setTimeout(wrapModals, 100);
+            return;
+        }
+
+        const openEditModalOrig = window.appFunctions.openEditModal;
+        const openEditRoundModalOrig = window.appFunctions.openEditRoundModal;
+        const closeEditModalOrig = window.appFunctions.closeEditModal;
+        const closeEditRoundModalOrig = window.appFunctions.closeEditRoundModal;
+
+        window.appFunctions.openEditModal = function () {
+            openEditModalOrig.apply(this, arguments);
+            if (document.getElementById('editCourseModal').classList.contains('show')) {
+                history.pushState({ view: currentView, modal: true, app: true }, '');
+            }
+        };
+        window.appFunctions.openEditRoundModal = function () {
+            openEditRoundModalOrig.apply(this, arguments);
+            if (document.getElementById('editRoundModal').classList.contains('show')) {
+                history.pushState({ view: currentView, modal: true, app: true }, '');
+            }
+        };
+        window.appFunctions.closeEditModal = function () {
+            closeEditModalOrig.apply(this, arguments);
+            if (history.state && history.state.modal) {
+                history.back();
+            }
+        };
+        window.appFunctions.closeEditRoundModal = function () {
+            closeEditRoundModalOrig.apply(this, arguments);
+            if (history.state && history.state.modal) {
+                history.back();
+            }
+        };
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', wrapModals);
+    } else {
+        wrapModals();
+    }
+
+    console.log('✅ Back button handler (v4) installed');
+})();
+</script>
+
     <div class="app-container" id="app">
 
         <!-- ============ LOADING SCREEN ============ -->
@@ -2088,7 +2239,6 @@
     window.loadLocalCourses = loadLocalCourses;
     window.loadLocalRounds = loadLocalRounds;
     window.hasLocalData = hasLocalData;
-    window.showView = showView;
     window.setSyncStatus = setSyncStatus;
     window.showAuthError = showAuthError;
     window.showAuthSuccess = showAuthSuccess;
@@ -3936,113 +4086,6 @@ document.addEventListener('DOMContentLoaded', function () {
     // (Handled automatically by Part 2's onAuthStateChanged)
 
 });
-</script>
-
-<!-- ============================================================
-     BACK BUTTON HANDLER
-     Handles Android/browser back button to close modals and navigate
-     (proven logic from v2.4)
-     ============================================================ -->
-<script>
-(function () {
-    'use strict';
-    const $ = id => document.getElementById(id);
-    let currentView = 'homeView';
-    history.replaceState({ view: 'homeView' }, '');
-
-    // Wrap window.showView to track history
-    window.showView = function (viewId, fromHistory) {
-        document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
-        const target = $(viewId);
-        if (target) target.classList.add('active');
-
-        if (fromHistory) {
-            currentView = viewId;
-            return;
-        }
-
-        if (viewId === 'homeView') {
-            if (history.state && history.state.view !== 'homeView') history.back();
-            currentView = 'homeView';
-            return;
-        }
-
-        // System views (auth, loading, migration) don't push to history
-        if (viewId === 'authView' || viewId === 'loadingView' || viewId === 'migrationView') {
-            currentView = viewId;
-            return;
-        }
-
-        if (currentView !== viewId) history.pushState({ view: viewId }, '');
-        currentView = viewId;
-    };
-
-    window.addEventListener('popstate', function (e) {
-        // Close modals first
-        const editCourseModal = $('editCourseModal');
-        const editRoundModal = $('editRoundModal');
-        if (editCourseModal) editCourseModal.classList.remove('show');
-        if (editRoundModal) editRoundModal.classList.remove('show');
-
-        try { if (window.appFunctions) window.appFunctions.closeDropdown(); } catch (err) {}
-        try { if (window.appFunctions) window.appFunctions.closeCalcDropdown(); } catch (err) {}
-
-        const view = (e.state && e.state.view) || 'homeView';
-
-        // If not logged in, force auth/migration
-        if (!window.getCurrentUser || !window.getCurrentUser()) {
-            const authView = $('authView');
-            const migrationView = $('migrationView');
-            if (authView && !authView.classList.contains('active') &&
-                migrationView && !migrationView.classList.contains('active')) {
-                window.showView('authView', true);
-                return;
-            }
-        }
-
-        window.showView(view, true);
-        if (view === 'homeView' && window.appFunctions) {
-            window.appFunctions.renderHome();
-        }
-    });
-
-    // Wrap modal open/close to add/remove history entries
-    function wrapModals() {
-        if (!window.appFunctions) return;
-        const openEditModalOrig = window.appFunctions.openEditModal;
-        const openEditRoundModalOrig = window.appFunctions.openEditRoundModal;
-        const closeEditModalOrig = window.appFunctions.closeEditModal;
-        const closeEditRoundModalOrig = window.appFunctions.closeEditRoundModal;
-
-        window.appFunctions.openEditModal = function () {
-            openEditModalOrig.apply(this, arguments);
-            if ($('editCourseModal').classList.contains('show')) {
-                history.pushState({ view: currentView, modal: true }, '');
-            }
-        };
-        window.appFunctions.openEditRoundModal = function () {
-            openEditRoundModalOrig.apply(this, arguments);
-            if ($('editRoundModal').classList.contains('show')) {
-                history.pushState({ view: currentView, modal: true }, '');
-            }
-        };
-        window.appFunctions.closeEditModal = function () {
-            closeEditModalOrig.apply(this, arguments);
-            if (history.state && history.state.modal) history.back();
-        };
-        window.appFunctions.closeEditRoundModal = function () {
-            closeEditRoundModalOrig.apply(this, arguments);
-            if (history.state && history.state.modal) history.back();
-        };
-    }
-
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', wrapModals);
-    } else {
-        setTimeout(wrapModals, 100);
-    }
-
-})();
 </script>
 
 <!-- ============================================================
