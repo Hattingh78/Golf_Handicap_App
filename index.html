@@ -1504,10 +1504,12 @@
             </div>
 
             <div style="text-align:center;margin-top:20px;">
-                <button type="button" class="btn-link" id="homeAboutLink">About</button>
-                <span style="color:#c6b29a;">·</span>
-                <button type="button" class="btn-link" id="homePrivacyLink">Privacy Policy</button>
-            </div>
+    <a href="guide.html" target="_blank" rel="noopener" style="background:none;border:none;color:#1e4d3a;font-size:14px;font-weight:800;cursor:pointer;padding:8px;text-decoration:underline;text-decoration-color:#c6b29a;text-underline-offset:3px;font-family:inherit;">Guide</a>
+    <span style="color:#c6b29a;">·</span>
+    <button type="button" class="btn-link" id="homeAboutLink">About</button>
+    <span style="color:#c6b29a;">·</span>
+    <button type="button" class="btn-link" id="homePrivacyLink">Privacy Policy</button>
+</div>
         </div>
 
         <!-- ============ ENTER SCORE VIEW ============ -->
@@ -4124,6 +4126,63 @@ if ('serviceWorker' in navigator) {
             .catch(err => console.warn('⚠️ SW registration failed:', err));
     });
 }
+</script>
+<!-- ============ WELCOME POPUP (first-time visitors only) ============ -->
+<div class="modal-overlay" id="welcomeModal">
+    <div class="modal-content" style="text-align:center;max-width:380px;">
+        <div style="font-size:48px;margin-bottom:12px;">👋</div>
+        <h3 style="font-size:20px;color:#1e3a2f;margin-bottom:8px;">Welcome to Golf Handicap</h3>
+        <p style="font-size:14px;color:#7a6b5c;line-height:1.6;margin-bottom:22px;">
+            New to handicaps? Read our quick guide to learn how it works — or skip straight to signing up.
+        </p>
+
+        <a href="guide.html" target="_blank" rel="noopener" id="welcomeGuideBtn"
+           style="display:flex;align-items:center;justify-content:center;gap:10px;background:#1e4d3a;color:white;padding:14px;border-radius:12px;text-decoration:none;font-weight:700;font-size:15px;margin-bottom:10px;">
+            📖 Read the guide
+        </a>
+
+        <button type="button" id="welcomeSkipBtn"
+                style="background:transparent;border:none;color:#7a6b5c;padding:10px;font-size:14px;font-weight:600;cursor:pointer;font-family:inherit;width:100%;">
+            Skip — I know what I'm doing
+        </button>
+    </div>
+</div>
+
+<script>
+(function () {
+    'use strict';
+    const FLAG = 'golf_hcp_welcomed';
+
+    // Only show on first visit
+    if (localStorage.getItem(FLAG) === 'yes') return;
+
+    // Wait for the auth screen to load, then show the welcome popup
+    setTimeout(function () {
+        const welcomeModal = document.getElementById('welcomeModal');
+        const skipBtn = document.getElementById('welcomeSkipBtn');
+        const guideBtn = document.getElementById('welcomeGuideBtn');
+
+        if (!welcomeModal) return;
+
+        welcomeModal.classList.add('show');
+
+        function closeWelcome() {
+            welcomeModal.classList.remove('show');
+            localStorage.setItem(FLAG, 'yes');
+        }
+
+        if (skipBtn) skipBtn.addEventListener('click', closeWelcome);
+        if (guideBtn) guideBtn.addEventListener('click', function () {
+            // Small delay so the guide opens, then mark as seen
+            setTimeout(closeWelcome, 300);
+        });
+
+        // Also allow tapping outside the popup to close it
+        welcomeModal.addEventListener('click', function (e) {
+            if (e.target === welcomeModal) closeWelcome();
+        });
+    }, 1200);
+})();
 </script>
 
 </body>
